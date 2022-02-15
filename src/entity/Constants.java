@@ -2,7 +2,7 @@ package entity;
 
 public class Constants {
 	
-	enum CURRENCY{
+	public enum CURRENCY{
 		SGD,USD,HKD,EURO,JPY,GBP
 	}
 
