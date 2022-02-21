@@ -83,8 +83,5 @@ public class Account {
 	public void setCurrency(CURRENCY currency) {
 		this.currency = currency;
 	}
-	
-	
-	
 
 }

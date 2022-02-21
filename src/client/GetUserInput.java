@@ -14,7 +14,6 @@ public class GetUserInput {
 		   	System.out.println("You entered: " + a);
 			return a;
 		} catch (Exception e) {
-//			System.out.println("Invalid integer input, Please try again");
 			System.out.println("Invalid integer input, Please try again");
 			return userInputInt();
 		} 

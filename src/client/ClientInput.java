@@ -4,13 +4,14 @@ import java.util.Currency;
 import java.util.Set;
 
 import entity.Account;
+import entity.Message;
 import entity.Constants;
 import entity.Constants.CURRENCY;
 import server.Server;
 
 public class ClientInput
 {
-	public Server server = new Server();
+	private Server server = new Server();
 	public CURRENCY[] allCurrency = CURRENCY.values();
 	public boolean currencyCheck = false; 
 	public CURRENCY selectedCurrency;
@@ -18,9 +19,11 @@ public class ClientInput
 	public int userAccount = 0;
 	public String userPassword = "";
 	public String userCurrencyType;
+	private int portNumber;
+	private int serverIPAddress;
+	private Client client = new Client(serverIPAddress, portNumber);
 
 	public ClientInput() {
-
 	}
 
 	public void getGeneralUserInput(int option) {
@@ -52,7 +55,7 @@ public class ClientInput
 	public void openNewAccount() {
 		getGeneralUserInput(1);
 		System.out.printf("Name: " + userName + " Password: " + userPassword + " Currency Type: " + userCurrencyType);
-		server.CreateAccount(userName, userPassword, selectedCurrency);
+		client.createAccount(userName, userPassword, selectedCurrency);
 	}
 
 	public void currencyCheckFunc(String newAccountCurr) {
@@ -70,7 +73,7 @@ public class ClientInput
 	public void closeExistingAccount() {
 		getGeneralUserInput(0);
 		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
-		server.closeAccount(userName, userAccount, userPassword);
+		client.closeAccount(userName, userAccount, userPassword);
 	}
 
 	public void depositOrWithdraw() {
@@ -84,22 +87,35 @@ public class ClientInput
 			System.out.println("Please Enter the sum to deposit.");
 			double depositSum = GetUserInput.userInputDouble();
 			System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Sum: " + depositSum + "\n");
-			server.Deposit(userName, userAccount, userPassword, selectedCurrency, depositSum);
+			client.depositMoney(userName, userAccount, userPassword, selectedCurrency, depositSum);
 			break;
 		case 2: 
 			System.out.println("--------Withdraw Money--------\n");
 			System.out.println("Please Enter the sum to withdraw.");
 			double withdrawSum = GetUserInput.userInputDouble();
 			System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Sum: " + withdrawSum + "\n");
-			server.Withdraw(userName, userAccount, userPassword, selectedCurrency, withdrawSum);
+			client.withdrawMoney(userName, userAccount, userPassword, selectedCurrency, withdrawSum);
 			break;
 		}
 	}
 
+	//monitor updates for a time period
 	public void monitorUpdates() {
-		
+		System.out.println("--------Monitor Updates--------\n");
+		System.out.println("Please enter the monitor interval time: ");
+		int monitorIntervalTime = GetUserInput.userInputInt();
+		System.out.println("Monitor Interval Time: " + monitorIntervalTime);
+		client.monitorUpdates(monitorIntervalTime);
+
+		//get the system time in nano seconds
+		long monitorStartTime = System.nanoTime();
+		//while the updates are within the period of time
+		while(((System.nanoTime() - monitorStartTime)/ 1e9) <= monitorIntervalTime){
+			//get the updates from server
+		}
+		System.out.println("Monitoring Period ended...");
 	}
-	
+
 	//transfer balance to another account 
 	//function 1 
 	public void transferMoney() {
@@ -110,9 +126,16 @@ public class ClientInput
 		System.out.println("Please Enter amount to tranfer: ");
 		double transAmount = GetUserInput.userInputDouble();
 		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Recipent Account: " + recipentAcc + " Sum: " + transAmount + "\n");
-		server.TransferMoney(userName, userAccount, userPassword, selectedCurrency, recipentAcc, transAmount);
+		client.transferMoney(userName, userAccount, userPassword, selectedCurrency, recipentAcc, transAmount);
 	}
-	
-	//
+
 	//function 2 
+	//check balance (Name, Password, Account Number) 
+	public void checkBalance() {
+		System.out.println("--------Check Balance--------\n");
+		getGeneralUserInput(0);
+		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
+		client.checkBalanceOfAccount(userName, userAccount, userPassword);
+
+	}
 }
