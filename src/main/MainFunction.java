@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 
 import client.*;
-import utils.Connections;
+import testing.Connections;
 
 public class MainFunction {
 	ClientInput clientInput = new ClientInput();
