@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch ConnectionsServer",
+            "request": "launch",
+            "mainClass": "testing.ConnectionsServer",
+            "projectName": "CZ4013_Project_c4052985"
+        },
+        {
+            "type": "java",
+            "name": "Launch ConnectionClient",
+            "request": "launch",
+            "mainClass": "testing.ConnectionClient",
+            "projectName": "CZ4013_Project_c4052985"
+        },
+        {
+            "type": "java",
             "name": "Launch ClientTest",
             "request": "launch",
             "mainClass": "utils.ClientTest",
