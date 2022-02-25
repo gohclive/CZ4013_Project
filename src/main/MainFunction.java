@@ -22,13 +22,13 @@ public class MainFunction {
 			int userInput = GetUserInput.userInputInt();
 			switch(userInput) {
 			case 1:
-				try{
-					DatagramSocket msg = new DatagramSocket();
-					Connections.sendMsgToServer("Testing joke", msg);
-					Connections.clientToReceive(msg);
-				}catch(Exception e){ e.printStackTrace( ); }
+				// try{
+				// 	DatagramSocket msg = new DatagramSocket();
+				// 	Connections.sendMsgToServer("Testing joke", msg);
+				// 	Connections.clientToReceive(msg);
+				// }catch(Exception e){ e.printStackTrace( ); }
 
-				//clientInput.openNewAccount();
+				clientInput.openNewAccount();
 				break;
 			case 2:
 				clientInput.closeExistingAccount();
