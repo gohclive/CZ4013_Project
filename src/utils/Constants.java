@@ -16,5 +16,5 @@ public class Constants {
         }
     public static final int serverPortNumber = 6666;
     public static final int messageLength = 65535;
-    public static int clientPort = 123;
+    public static int clientPort = 122;
 }
