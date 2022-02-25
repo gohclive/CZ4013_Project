@@ -1,11 +1,15 @@
 package main;
 
+import java.io.IOException;
+import java.net.DatagramSocket;
+
 import client.*;
+import testing.Connections;
 
 public class MainFunction {
 	ClientInput clientInput = new ClientInput();
 	private boolean exit = false;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		MainFunction main = new MainFunction();
 		main.mainMenu();
@@ -17,7 +21,13 @@ public class MainFunction {
 		while(exit == false) {
 			int userInput = GetUserInput.userInputInt();
 			switch(userInput) {
-			case 1: 
+			case 1:
+				// try{
+				// 	DatagramSocket msg = new DatagramSocket();
+				// 	Connections.sendMsgToServer("Testing joke", msg);
+				// 	Connections.clientToReceive(msg);
+				// }catch(Exception e){ e.printStackTrace( ); }
+
 				clientInput.openNewAccount();
 				break;
 			case 2:
@@ -54,7 +64,7 @@ public class MainFunction {
 		String MenuTitle = "\n------------------------------------\n" +
 				"Distributed Banking System\n";
 		String MENU = "\n------------------------------------\n" +
-				"Select an option from [1-5]:\n" +
+				"Select an option from [1-7]:\n" +
 				"1. Open a new account\n" +
 				"2. Close an existing account\n" +
 				"3. Deposit/Withdraw Money from account\n" +
