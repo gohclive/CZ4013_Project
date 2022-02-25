@@ -1,0 +1,70 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch ClientTest",
+            "request": "launch",
+            "mainClass": "utils.ClientTest",
+            "projectName": "CZ4013_Project_c4052985"
+        },
+        {
+            "type": "java",
+            "name": "Launch ConnectionClient",
+            "request": "launch",
+            "mainClass": "utils.ConnectionClient",
+            "projectName": "CZ4013_Project_c4052985"
+        },
+        {
+            "type": "java",
+            "name": "Launch ConnectionsServer",
+            "request": "launch",
+            "mainClass": "utils.ConnectionsServer",
+            "projectName": "CZ4013_Project_c4052985"
+        },
+        {
+            "type": "java",
+            "name": "Launch Server",
+            "request": "launch",
+            "mainClass": "utils.Server",
+            "projectName": "CZ4013_Project_c4052985"
+        },
+        {
+            "type": "java",
+            "name": "Launch Client",
+            "request": "launch",
+            "mainClass": "utils.Client",
+            "projectName": "CZ4013_Project_c4052985"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch MainFunction",
+            "request": "launch",
+            "mainClass": "main.MainFunction",
+            "projectName": "CZ4013_Project_c4052985"
+        },
+        {
+            "type": "java",
+            "name": "Launch SocketsClient",
+            "request": "launch",
+            "mainClass": "utils.SocketsClient",
+            "projectName": "CZ4013_Project_c4052985"
+        },
+        {
+            "type": "java",
+            "name": "Launch SocketsServer",
+            "request": "launch",
+            "mainClass": "utils.SocketsServer",
+            "projectName": "CZ4013_Project_c4052985"
+        }
+    ]
+}
