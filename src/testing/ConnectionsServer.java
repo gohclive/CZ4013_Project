@@ -51,10 +51,10 @@ public class ConnectionsServer
             //     mysSocket.send(datagram);
             //     //mysSocket.close();
             // }
-            Queue<DatagramPacket> packetReceive = new LinkedList<>();
-            Connections.serverListen(packetReceive);
-            DatagramPacket checking = packetReceive.peek();
-            System.out.println("This is the port that was retrived " + checking.getPort());
+            // Queue<DatagramPacket> packetReceive = new LinkedList<>();
+            // Connections.serverListen(packetReceive);
+            // DatagramPacket checking = packetReceive.peek();
+            // System.out.println("This is the port that was retrived " + checking.getPort());
         }
         catch (Exception e) {e.printStackTrace();}
     }
