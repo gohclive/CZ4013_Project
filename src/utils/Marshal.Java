@@ -12,12 +12,12 @@ public class Marshal
     //integer numbers, strings, boolean, currency(to string since it has tostring function), 
     //need make for single variable and structure argument
     public static byte[] stringToByte (String toConvert){
-        byte[] converting = toConvert.getBytes(StandardCharsets.UTF_8);
+        byte[] converting = toConvert.getBytes(Constants.commonCharset);
         return converting;
     }
 
     public static String byteToString (byte[] toConvert){
-        String converting = new String(toConvert, StandardCharsets.UTF_8);
+        String converting = new String(toConvert,Constants.commonCharset);
         return converting;
     }
 
