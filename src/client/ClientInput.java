@@ -14,6 +14,9 @@ public class ClientInput
 	private Server server = new Server();
 	public CURRENCY[] allCurrency = CURRENCY.values();
 	public boolean currencyCheck = false; 
+	public boolean accountCheck = false;
+	public boolean passwordCheck = false;
+	public boolean accountNameCheck = false;
 	public CURRENCY selectedCurrency;
 	public String userName = "";
 	public int userAccount = 0;
@@ -29,12 +32,14 @@ public class ClientInput
 	public void getGeneralUserInput(int option) {
 		System.out.println("Please Enter a Name: ");
 		userName = GetUserInput.userInputString();
+		accountNameCheck(userName);
 		// check if it is a unique name 
 		//check the password meets the requirements 
 		if(option == 1 || option == 2) {
 			if(option == 2) {
 				System.out.println("Please Enter Account number: ");
 				userAccount = GetUserInput.userInputInt();
+				accountNumberCheck(userAccount);
 			}
 			System.out.println("Please Enter Currency Type (e.g. USD, SGD, EUR): ");
 			userCurrencyType = GetUserInput.userInputString();
@@ -47,9 +52,12 @@ public class ClientInput
 		} else {
 			System.out.println("Please Enter Account number: ");
 			userAccount = GetUserInput.userInputInt();
+			accountNumberCheck(userAccount);
+
 		}
 		System.out.println("Please Enter Password: ");
 		userPassword = GetUserInput.userInputString();
+		accountPasswordCheck(userPassword);
 	}
 
 	public void openNewAccount() {
@@ -66,6 +74,53 @@ public class ClientInput
 			{
 				currencyCheck = true;
 				selectedCurrency = currency;
+			}
+		}
+	}
+
+	//account name (alphabets) 
+	public void accountNameCheck(String newAccountName) {
+		accountNameCheck = false;
+		while(accountNameCheck == false) {
+			String regEx = "/^[A-Za-z]+$/";
+			if((userName != null) && (!userName.equals("")) && (userName.matches("^[a-zA-Z]*$")))
+			{
+				accountNameCheck = true;
+			}
+			else
+			{
+				System.out.println("Please Enter a valid account name (alphabets only): ");
+				userName = GetUserInput.userInputString();
+
+			}
+		}
+	}
+
+	//10 digit number int 
+	public void accountNumberCheck(int newAccountNumber) {
+		accountCheck = false;
+		while(accountCheck == false) {
+			if(String.valueOf(userAccount).length() != 10) {
+				System.out.println("Please insert a valid account number (10 digits): ");
+				userAccount = GetUserInput.userInputInt();
+				//how to check for existing account number? 
+			} else {
+				accountCheck = true;
+			}
+		}
+	}
+
+	//8 alphanumeric length string 
+	public void accountPasswordCheck(String newPassword) {
+		passwordCheck = false;
+		while(passwordCheck == false) {
+			if(userPassword.length() == 8 && userPassword.matches("^[a-zA-Z0-9]*$") && (!userPassword.equals(""))) {
+				passwordCheck = true;
+		
+				//how to check for existing account number? 
+			} else {
+				System.out.println("Please Enter a valid Password (8 alphanumeric password): ");
+				userPassword = GetUserInput.userInputString();
 			}
 		}
 	}
@@ -121,11 +176,11 @@ public class ClientInput
 	public void transferMoney() {
 		System.out.println("--------Transfer Money--------\n");
 		getGeneralUserInput(2);
-		System.out.println("Please Enter the Account of Recipent: ");
+		System.out.println("Please Enter the Account of Recipient: ");
 		int recipentAcc =  GetUserInput.userInputInt();
-		System.out.println("Please Enter amount to tranfer: ");
+		System.out.println("Please Enter amount to transfer: ");
 		double transAmount = GetUserInput.userInputDouble();
-		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Recipent Account: " + recipentAcc + " Sum: " + transAmount + "\n");
+		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Recipient Account: " + recipentAcc + " Sum: " + transAmount + "\n");
 		client.transferMoney(userName, userAccount, userPassword, selectedCurrency, recipentAcc, transAmount);
 	}
 

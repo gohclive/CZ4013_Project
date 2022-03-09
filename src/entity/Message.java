@@ -3,29 +3,30 @@ package entity;
 public class Message {
 
 	private static int messageID;
-	private static Object[] messageContent;
-	public Message(int messageID, Object[] messageContent) {
-		this.messageID = messageID;
-		this.messageContent = messageContent;
+	private static String messageContent;
+	public Message(int messageID, String messageContent) {
+		Message.messageID = messageID;
+		Message.messageContent = messageContent;
 	}
 
 	public int getMessageID() {
-		return this.messageID;
+		return Message.messageID;
 	}
-	public Object[] getContent(){
-		return this.messageContent;
+	public String getContent(){
+		System.out.println(messageContent);
+		return Message.messageContent;
 	}
 
 	public void setMessageID(int messageID) {
-		this.messageID = messageID;
+		Message.messageID = messageID;
 	}
 
-	public void setContent(Object[] content) {
-		this.messageContent = content;
+	public void setContent(String content) {
+		Message.messageContent = content;
 	}
 
 	public static Message replyMessage() {
-		System.out.println("message from server");
+//		System.out.println("message from server" + messageID + messageContent);
 		 return new Message(messageID, messageContent);
 	}
 }
