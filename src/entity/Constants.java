@@ -19,11 +19,12 @@ public class Constants {
 
 		}
 	}
+	// too much buffer size = slow and high chance cache miss
 	public static final int serverPortNumber = 6666;
 	public static final int messageLength = 65535;
 	public static int clientPort = 122;
 	public static final Charset commonCharset = StandardCharsets.UTF_8;
-
+	public static int messageIdentifer = 0;
 	public static void main(String[] args) {
 		System.out.println(serverIP);
 	}
