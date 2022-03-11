@@ -2,21 +2,24 @@ package main;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
-
 import client.*;
-import testing.Connections;
+import utils.Connections;
 
 public class MainFunction {
 	ClientInput clientInput = new ClientInput();
 	private boolean exit = false;
 	public static void main(String[] args) throws IOException {
+		try {
+			DatagramSocket clientDatagram = new DatagramSocket();
+			//String clientSystemInfo = Connections.clientAddrPort(clientDatagram);
+			
+			MainFunction main = new MainFunction();
+			main.mainMenu();
 
-		MainFunction main = new MainFunction();
-		main.mainMenu();
+		} catch(Exception e){ e.printStackTrace(); }
 	}
 
 	public void mainMenu() {
-
 		printMenu(0);
 		while(exit == false) {
 			int userInput = GetUserInput.userInputInt();
@@ -27,7 +30,6 @@ public class MainFunction {
 				// 	Connections.sendMsgToServer("Testing joke", msg);
 				// 	Connections.clientToReceive(msg);
 				// }catch(Exception e){ e.printStackTrace( ); }
-
 				clientInput.openNewAccount();
 				break;
 			case 2:

@@ -12,7 +12,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import utils.Marshal;
 
-import utils.Constants;
+import entity.Constants;
 
 public class Connections {
     
@@ -66,5 +66,26 @@ public class Connections {
             }while (true);
         }catch(Exception e){ e.printStackTrace(); }
     }
-}
 
+    public static int msgID(){
+        return (Constants.messageIdentifer++);
+    }
+
+    public static String clientAddrPort(DatagramSocket clientsocket){
+        int port = clientsocket.getLocalPort();
+        System.out.println("port is : "+ port);
+        String wew = String.valueOf(port);
+        InetAddress ip= null;
+        try {
+            ip = InetAddress.getByName(null);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        String addr = ip.toString();
+        System.out.println("addr is : "+ addr);
+        String addrPort = addr + "|" + port;
+        System.out.println("addrport is : "+ addrPort);
+        return wew;
+    }
+
+}
