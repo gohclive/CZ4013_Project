@@ -6,6 +6,34 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch SocketsClient",
+            "request": "launch",
+            "mainClass": "testing.SocketsClient",
+            "projectName": "CZ4013_Project_6a6a0503"
+        },
+        {
+            "type": "java",
+            "name": "Launch SocketsServer",
+            "request": "launch",
+            "mainClass": "testing.SocketsServer",
+            "projectName": "CZ4013_Project_6a6a0503"
+        },
+        {
+            "type": "java",
+            "name": "Launch ConnectionsServer",
+            "request": "launch",
+            "mainClass": "testing.ConnectionsServer",
+            "projectName": "CZ4013_Project_6a6a0503"
+        },
+        {
+            "type": "java",
+            "name": "Launch MainFunction",
+            "request": "launch",
+            "mainClass": "main.MainFunction",
+            "projectName": "CZ4013_Project_6a6a0503"
+        },
+        {
+            "type": "java",
             "name": "Launch TestingGround",
             "request": "launch",
             "mainClass": "testing.TestingGround",
