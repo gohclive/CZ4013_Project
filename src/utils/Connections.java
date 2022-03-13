@@ -20,8 +20,8 @@ public class Connections {
 
     public static void sendMsgToServer(String messagetosend, DatagramSocket clientSocket) {
         try {
-            byte buf[] = null;
-            buf = messagetosend.getBytes();
+            byte[] buf = null;
+            buf = Marshal.stringToByte(messagetosend);
             DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, Constants.serverIP, Constants.serverPortNumber);
             clientSocket.send(dpmsg);
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class Connections {
             DatagramSocket msg = new DatagramSocket();
             byte buf[] = null;
             // System.out.println("Sending Message To Client: " + messagetosend);
-            buf = messagetosend.getBytes();
+            buf = Marshal.stringToByte(messagetosend);
             DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, clientAddr, clientPort);
             msg.send(dpmsg);
         } catch (Exception e) {
@@ -44,16 +44,19 @@ public class Connections {
         }
     }
 
-    public static void clientToReceive(DatagramSocket clientSocket) {
+    public static String clientToReceive(DatagramSocket clientSocket) {
+        String result = null;
         try {
             byte[] recvbuffer = new byte[Constants.messageLength];
             DatagramPacket dataRecv = new DatagramPacket(recvbuffer, Constants.messageLength);
             clientSocket.receive(dataRecv);
-            String recvdString = new String(recvbuffer);
-            System.out.println("\n" + recvdString);
+            String recvdString = Marshal.byteToString(recvbuffer);
+            result = recvdString;
+            System.out.println(recvdString);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     // public static void serverListen(Queue<DatagramPacket> packetReceived) { // prolly need Queue<datagrampacket>

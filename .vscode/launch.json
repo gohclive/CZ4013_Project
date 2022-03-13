@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch SocketsServer",
+            "request": "launch",
+            "mainClass": "testing.SocketsServer",
+            "projectName": "CZ4013_Project_c4052985"
+        },
+        {
+            "type": "java",
             "name": "Launch SocketsClient",
             "request": "launch",
             "mainClass": "testing.SocketsClient",
