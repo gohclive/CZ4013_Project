@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
 import javax.xml.crypto.Data;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -54,25 +56,24 @@ public class Connections {
         }
     }
 
-    public static void serverListen(Queue<DatagramPacket> packetReceived) { // prolly need Queue<datagrampacket>
-                                                                            // packetreceive = new linkedlist<>();
-                                                                            // multithreading
-        try {
-            DatagramSocket socketToListen = new DatagramSocket(Constants.serverPortNumber);
-            byte[] recvBuffer = new byte[Constants.messageLength];
-            do {
-                DatagramPacket incomingPacket = new DatagramPacket(recvBuffer, Constants.messageLength);
-                socketToListen.receive(incomingPacket);
-                packetReceived.add(incomingPacket);
-                Constants.clientPort = incomingPacket.getPort();
-                // System.out.println("cheated is " + Constants.clientPort);
-                String recvmsg = new String(recvBuffer);
-                System.out.println("\n" + recvmsg);
-            } while (true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    // public static void serverListen(Queue<DatagramPacket> packetReceived) { // prolly need Queue<datagrampacket>
+    //                                                                         // packetreceive = new linkedlist<>();
+    //     try {
+    //         DatagramSocket socketToListen = new DatagramSocket(Constants.serverPortNumber);
+    //         byte[] recvBuffer = new byte[Constants.messageLength];
+    //         do {
+    //             DatagramPacket incomingPacket = new DatagramPacket(recvBuffer, Constants.messageLength);
+    //             socketToListen.receive(incomingPacket);
+    //             packetReceived.add(incomingPacket);
+    //             Constants.clientPort = incomingPacket.getPort();
+    //             // System.out.println("cheated is " + Constants.clientPort);
+    //             String recvmsg = new String(recvBuffer);
+    //             System.out.println("\n" + recvmsg);
+    //         } while (true);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public static int msgID() {
         return (Constants.messageIdentifer++);
@@ -80,8 +81,6 @@ public class Connections {
 
     public static String clientAddrPort(DatagramSocket clientsocket) {
         int port = clientsocket.getLocalPort();
-        // System.out.println("port is : " + port);
-        String wew = String.valueOf(port);
         InetAddress ip = null;
         try {
             ip = InetAddress.getByName(null);
@@ -89,10 +88,10 @@ public class Connections {
             e.printStackTrace();
         }
         String addr = ip.toString();
-        // System.out.println("addr is : " + addr);
-        String addrPort = addr + "|" + port;
-        // System.out.println("addrport is : " + addrPort);
-        return wew;
+        String[] ipOnly = addr.split(Pattern.quote("/"));
+        String addrPort = ipOnly[1] + "|" + port;
+        //System.out.println("addrport is : " + addrPort);
+        return addrPort;
     }
 
     public static DatagramSocket clientSocketPort(DatagramSocket socket) {

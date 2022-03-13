@@ -26,8 +26,9 @@ public class MainFunction {
 			switch (userInput) {
 				case 1:
 					try {
-						Connections.sendMsgToServer("Testing joke", clientSocket);
-						Connections.clientToReceive(clientSocket);
+						//Connections.clientAddrPort(clientSocket);
+						// Connections.sendMsgToServer("Testing joke", clientSocket);
+						// Connections.clientToReceive(clientSocket);
 						// clientInput.openNewAccount();
 						break;
 					} catch (Exception e) {

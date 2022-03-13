@@ -30,8 +30,8 @@ public class Marshal {
         return converting;
     }
 
-    // public static byte[] accountToByte(){
-
-    // }
-
+    public static String[] decodeForServer(String clientInput){
+        String[] token = clientInput.split("\\|");
+        return token;
+    }
 }
