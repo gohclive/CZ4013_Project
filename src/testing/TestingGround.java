@@ -21,9 +21,28 @@ public class TestingGround {
         // } catch (UnsupportedEncodingException e){
         //     System.out.println("Unsupported character set" + e);
         // }
-        // String inputo = "5|clivegoh|1231411111|12345678|USD|1231111111|20.0";
-        // String[] wowie = Marshal.decodeForServer(inputo);
-        // System.out.println(wowie[3]);
+        // Scanner sc = new Scanner(System.in);
+        // System.out.println("enter currency: ");
+        // String input = sc.nextLine();
         
+        // String inputo = "5|clivegoh|1231411111|SGD|1231111111|20.0|";
+        // byte [] test = Marshal.stringToByte(inputo);
+        // String decoded = Marshal.byteToString(test);
+        // String[] wowie = Marshal.decodeForServer(decoded);
+        
+        // System.out.println(wowie[3].equals("SGD"));
+        // System.out.println(wowie[3].equals(input));
+
+        // for (int i=0;i<wowie.length;i++){
+        //     System.out.println(wowie[i]);
+        // }
+        // System.out.println(wowie.length);
+        
+        int topad = 1234;
+        String padded = String.format("%09d", topad);
+        System.out.println(padded);
+        int unpad = Integer.valueOf(padded);
+        System.out.println(unpad);
+
     }
 }

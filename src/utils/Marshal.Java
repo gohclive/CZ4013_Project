@@ -32,6 +32,21 @@ public class Marshal {
 
     public static String[] decodeForServer(String clientInput){
         String[] token = clientInput.split("\\|");
+        // for (int i=0;i<=clientInput.length();i++){
+        //     System.out.println(token[i]);
+        // }
         return token;
     }
+
+    public static String accPadding (int accNo){
+        String padding = String.format("%09d", accNo);
+        return padding;
+    }
+
+    public static int unpadAcc (String paddedAcc){
+        int unpad = Integer.valueOf(paddedAcc);
+        return unpad;
+    }
+
+
 }
