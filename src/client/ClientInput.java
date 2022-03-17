@@ -17,9 +17,11 @@ public class ClientInput
 	public boolean accountCheck = false;
 	public boolean passwordCheck = false;
 	public boolean accountNameCheck = false;
+	public boolean moneyCheck = false;
 	public CURRENCY selectedCurrency;
 	public String userName = "";
 	public int userAccount = 0;
+	public double moneySum = 0;
 	public String userPassword = "";
 	public String userCurrencyType;
 	private int portNumber;
@@ -39,9 +41,9 @@ public class ClientInput
 			if(option == 2) {
 				System.out.println("Please Enter Account number: ");
 				userAccount = GetUserInput.userInputInt();
-				accountNumberCheck(userAccount);
+								accountNumberCheck(userAccount);
 			}
-			System.out.println("Please Enter Currency Type (e.g. USD, SGD, EUR): ");
+			System.out.println("Please Enter Currency Type (e.g. USD, SGD, EURO): ");
 			userCurrencyType = GetUserInput.userInputString();
 			currencyCheckFunc(userCurrencyType);
 			while(currencyCheck == false) {
@@ -52,7 +54,7 @@ public class ClientInput
 		} else {
 			System.out.println("Please Enter Account number: ");
 			userAccount = GetUserInput.userInputInt();
-			accountNumberCheck(userAccount);
+						accountNumberCheck(userAccount);
 
 		}
 		System.out.println("Please Enter Password: ");
@@ -96,19 +98,19 @@ public class ClientInput
 		}
 	}
 
-	//10 digit number int 
-	public void accountNumberCheck(int newAccountNumber) {
-		accountCheck = false;
-		while(accountCheck == false) {
-			if(String.valueOf(userAccount).length() != 10) {
-				System.out.println("Please insert a valid account number (10 digits): ");
-				userAccount = GetUserInput.userInputInt();
-				//how to check for existing account number? 
-			} else {
-				accountCheck = true;
+	//9 digit number int 
+		public void accountNumberCheck(int newAccountNumber) {
+			accountCheck = false;
+			while(accountCheck == false) {
+				if(String.valueOf(userAccount).length() > 9) {
+					System.out.println("Please insert a valid account number (>9 digits): ");
+					userAccount = GetUserInput.userInputInt();
+					//how to check for existing account number? 
+				} else {
+					accountCheck = true;
+				}
 			}
 		}
-	}
 
 	//8 alphanumeric length string 
 	public void accountPasswordCheck(String newPassword) {
@@ -116,8 +118,6 @@ public class ClientInput
 		while(passwordCheck == false) {
 			if(userPassword.length() == 8 && userPassword.matches("^[a-zA-Z0-9]*$") && (!userPassword.equals(""))) {
 				passwordCheck = true;
-		
-				//how to check for existing account number? 
 			} else {
 				System.out.println("Please Enter a valid Password (8 alphanumeric password): ");
 				userPassword = GetUserInput.userInputString();
@@ -125,6 +125,18 @@ public class ClientInput
 		}
 	}
 
+	public void moneyCheck(double values) {
+		moneyCheck=false;
+		while(moneyCheck==false){
+			System.out.println(moneySum);
+			if (moneySum > 0) {
+				moneyCheck = true;
+			} else {
+				System.out.println("Please Enter a valid sum.");
+				moneySum = GetUserInput.userInputDouble();
+			}
+		}
+	}
 	public void closeExistingAccount() {
 		getGeneralUserInput(0);
 		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
@@ -140,16 +152,18 @@ public class ClientInput
 		case 1: 
 			System.out.println("--------Deposit Money--------\n");
 			System.out.println("Please Enter the sum to deposit.");
-			double depositSum = GetUserInput.userInputDouble();
-			System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Sum: " + depositSum + "\n");
-			client.depositMoney(userName, userAccount, userPassword, selectedCurrency, depositSum);
+			moneySum = GetUserInput.userInputDouble();
+			moneyCheck(moneySum);
+			System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Sum: " + moneySum + "\n");
+			client.depositMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
 			break;
 		case 2: 
 			System.out.println("--------Withdraw Money--------\n");
 			System.out.println("Please Enter the sum to withdraw.");
-			double withdrawSum = GetUserInput.userInputDouble();
-			System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Sum: " + withdrawSum + "\n");
-			client.withdrawMoney(userName, userAccount, userPassword, selectedCurrency, withdrawSum);
+			 moneySum = GetUserInput.userInputDouble();
+			moneyCheck(moneySum);
+			System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Sum: " + moneySum + "\n");
+			client.withdrawMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
 			break;
 		}
 	}
