@@ -36,6 +36,14 @@ public class Client {
 		return new Message(getMessageId(), null);
 	}
 
+    public Message ping(){
+        Message message = createRequestMessage();
+        StringBuilder builder = new StringBuilder();
+        builder.append(0);
+        builder.append(breaker);
+        return message;
+    }
+
 	public Message createAccount(String userName, String userPassword, CURRENCY selectedCurrency){
         Message message = createRequestMessage();
         StringBuilder builder = new StringBuilder();

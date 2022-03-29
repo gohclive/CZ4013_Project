@@ -2,13 +2,16 @@ package main;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.util.Scanner;
 
 import client.*;
 import entity.Constants;
+import entity.Message;
 import utils.Connections;
 
 public class MainFunction {
@@ -21,19 +24,34 @@ public class MainFunction {
 	}
 
 	public void mainMenu() {
+		
 		Scanner sc =  new Scanner(System.in);
-		System.out.println("Please Enter Server Ip Address: ");
-		String serverIp = sc.next();
+		
 		System.out.println("pinging server...");
+		InetAddress ip;
+		boolean done = false;
+		while(!done){
+			try {
+				System.out.println("Please Enter Server Ip Address: ");
+				String serverIp = sc.next();
+				ip = InetAddress.getByName(serverIp);
+			} catch (UnknownHostException e) {
+				System.out.println("invalid IP address!");
+			}
+		}
+		
+
+		Client c = new Client(ip, Constants.clientPort);
 		
 		DatagramSocket clientSocket = null;
 		
 		clientSocket = Connections.clientSocketPort(clientSocket);
-		clientSocket = Connections.setSocketTimeout(clientSocket);
-		Connections.sendMsgToServer("0|", clientSocket, serverIp);
+		//clientSocket = Connections.setSocketTimeout(clientSocket);
+		Message msg = c.ping();
+		Connections.sendMsgToServer(msg, clientSocket, ip.toString());
 		
 		int count = 0;
-		while(count != 3) {
+		while(count <= Constants.retry) {
 			try {
 				clientSocket.setSoTimeout(Constants.requestTimeout);
 				Connections.clientToReceive(clientSocket);
@@ -47,7 +65,7 @@ public class MainFunction {
 		if (count == 3) {
 			System.out.println("Server not online!");
 		}
-		
+		 
 		
 		printMenu(0);
 		while (exit == false) {
