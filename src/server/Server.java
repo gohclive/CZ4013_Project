@@ -91,10 +91,6 @@ public class Server {
 					msgCache.put(Integer.parseInt(idcontent[0]),idcontent[1]);
 				}
 				switch (Integer.parseInt(message[0])) {
-				case 0:
-					msg = "0|SUCCESS|Server is online!|";
-					Connections.sendMsgToClient(msg, DpReceive);
-					break;
 				case 1:
 					//create account
 					a = CreateAccount(accountnum, message[1], message[2], CURRENCY.valueOf(message[3]));

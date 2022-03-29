@@ -52,21 +52,34 @@ public class MainFunction {
 		clientSocket = Connections.clientSocketPort(clientSocket);
 
 		
-		
 		printMenu(0);
 		while (exit == false) {
 			int userInput = GetUserInput.userInputInt();
+			
 			Message m = null;
 			switch (userInput) {
 				case 1:
+					int count = 0;
+					String res = null;
 					m = clientInput.openNewAccount();
-					try {
-						clientSocket.setSoTimeout(Constants.requestTimeout);
-						Connections.sendMsgToServer(m, clientSocket, ip);
-						String res = Connections.clientToReceive(clientSocket);
-						System.out.println(res);
-					} catch (SocketException e) {
-						e.printStackTrace();
+					while(count <= Constants.retry){
+						try {
+							clientSocket.setSoTimeout(Constants.requestTimeout);
+							Connections.sendMsgToServer(m, clientSocket, ip);
+							res = Connections.clientToReceive(clientSocket);
+							System.out.println(res);
+						} catch (SocketException e) {
+							Connections.sendMsgToServer(m, clientSocket, ip);
+							res = Connections.clientToReceive(clientSocket);
+						}
+						count++;
+					}
+					if(res == null){
+						System.out.println("unable to perform task, try again later");
+					}
+					else{
+						String[] result = res.split("\\|");
+						System.out.println(result[2]);
 					}
 					
 					break;
