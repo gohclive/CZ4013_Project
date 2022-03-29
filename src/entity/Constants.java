@@ -25,13 +25,12 @@ public class Constants {
 	}
 	// too much buffer size = slow and high chance cache miss
 	public static final int serverPortNumber = 6666;
-	public static final int messageLength = 65535;
+	public static final int messageLength = 1024;
 	public static final int requestTimeout = 10; // millisecond
 	public static final String delimiter = "|";
 	public static int clientPort = 122;
 	public static final Charset commonCharset = StandardCharsets.UTF_8;
-	public static int messageIdentifer = 0;
-	
+	public static int messageIdentifer = 1000;	
 	
 	//error messages
 	public static final String ACCOUNTNOTFOUND = "|ERROR|"+ "Account not found!" + "|";
@@ -49,6 +48,6 @@ public class Constants {
 		System.out.println(decoded[3]);
 		System.out.println(CURRENCY.values()[0]);
 	}
-	
+		
 
 }

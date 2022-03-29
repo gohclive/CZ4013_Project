@@ -5,6 +5,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.Scanner;
 
 public class TestingGround {
@@ -38,11 +40,18 @@ public class TestingGround {
         // }
         // System.out.println(wowie.length);
         
-        int topad = 1234;
-        String padded = String.format("%09d", topad);
-        System.out.println(padded);
-        int unpad = Integer.valueOf(padded);
-        System.out.println(unpad);
-
+        // int topad = 1234;
+        // String padded = String.format("%09d", topad);
+        // System.out.println(padded);
+        // int unpad = Integer.valueOf(padded);
+        // System.out.println(unpad);
+        String tez = "5|clivegoh|1131411111|12345678|USD|1263850000|20.0|";
+        byte[] again = Marshal.stringToByte(tez);
+        String recvstring = Marshal.byteToString(again);
+        System.out.println(tez.length());
+        System.out.println(tez);
+        System.out.println(again.length);
+        System.out.println(again);
+        System.out.println(recvstring);
     }
 }

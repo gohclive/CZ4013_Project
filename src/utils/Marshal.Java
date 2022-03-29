@@ -1,5 +1,5 @@
 package utils;
-
+import java.util.Random;
 import entity.Constants;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +11,12 @@ public class Marshal {
     // function),
     // need make for single variable and structure argument
     public static byte[] stringToByte(String toConvert) {
+        Random rand = new Random();
+        int id = rand.nextInt(Constants.messageIdentifer);
+        String msgID = String.valueOf(id) + "|"; 
+        // System.out.println("This is msg id: " + msgID);
+        toConvert = toConvert + msgID;
+        // System.out.println("This is toConvert: " + toConvert);
         byte[] converting = toConvert.getBytes(Constants.commonCharset);
         return converting;
     }
@@ -48,5 +54,10 @@ public class Marshal {
         return unpad;
     }
 
+    public static int msglength(byte[] bytetostrip){
+        String length = byteToString(bytetostrip);
+        return length.length();
+    }
+    
 
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import java.lang.Math;
 
 import javax.xml.crypto.Data;
 import java.net.SocketException;
@@ -78,9 +79,9 @@ public class Connections {
     //     }
     // }
 
-    public static int msgID() {
-        return (Constants.messageIdentifer++);
-    }
+    // public static int msgID() {
+    //     return (Constants.messageIdentifer++);
+    // }
 
     public static String clientAddrPort(DatagramSocket clientsocket) {
         int port = clientsocket.getLocalPort();
