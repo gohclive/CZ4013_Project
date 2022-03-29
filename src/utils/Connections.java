@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.lang.Math;
@@ -23,7 +24,7 @@ public class Connections {
         try {
         	InetAddress ip = InetAddress.getByName(serverIp);
             byte[] buf = null;
-            buf = Marshal.stringToByte(messagetosend);
+            buf = Marshal.stringToByte(messagetosend,20);
             DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, ip, Constants.serverPortNumber);
             clientSocket.send(dpmsg);
         } catch (Exception e) {
@@ -38,7 +39,7 @@ public class Connections {
             DatagramSocket msg = new DatagramSocket();
             byte buf[] = null;
             // System.out.println("Sending Message To Client: " + messagetosend);
-            buf = Marshal.stringToByte(messagetosend, 20);
+            buf = Marshal.stringToByte(messagetosend,null);
             DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, clientAddr, clientPort);
             msg.send(dpmsg);
         } catch (Exception e) {
