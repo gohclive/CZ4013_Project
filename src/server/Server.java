@@ -90,7 +90,10 @@ public class Server {
 				if (msgCache!= null) {
 					msgCache.put(Integer.parseInt(idcontent[0]),idcontent[1]);
 				}
+				System.out.println(idcontent[1]);
 				switch (Integer.parseInt(message[0])) {
+				case 0:
+					break;
 				case 1:
 					//create account
 					a = CreateAccount(accountnum, message[1], message[2], CURRENCY.valueOf(message[3]));

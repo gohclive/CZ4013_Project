@@ -67,20 +67,23 @@ public class MainFunction {
 							clientSocket.setSoTimeout(Constants.requestTimeout);
 							Connections.sendMsgToServer(m, clientSocket, ip);
 							res = Connections.clientToReceive(clientSocket);
-							System.out.println(res);
+							if(res != null){
+								break;
+							}
 						} catch (SocketException e) {
 							Connections.sendMsgToServer(m, clientSocket, ip);
 							res = Connections.clientToReceive(clientSocket);
 						}
 						count++;
 					}
-					if(res == null){
+
+					if (res == null) {
 						System.out.println("unable to perform task, try again later");
 					}
-					else{
-						String[] result = res.split("\\|");
-						System.out.println(result[2]);
-					}
+					
+					String[] result = res.split("\\|");
+					System.out.println(result[2]);
+					
 					
 					break;
 				case 2:
