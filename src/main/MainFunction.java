@@ -28,7 +28,7 @@ public class MainFunction {
 		Scanner sc =  new Scanner(System.in);
 		
 		System.out.println("pinging server...");
-		InetAddress ip;
+		InetAddress ip = null;
 		boolean done = false;
 		while(!done){
 			try {
@@ -59,7 +59,7 @@ public class MainFunction {
 			catch(SocketException e){
 				//resend
 				count++;
-				Connections.sendMsgToServer("0|", clientSocket, serverIp);
+				Connections.sendMsgToServer(msg, clientSocket, ip.toString());
 			}
 		}
 		if (count == 3) {
