@@ -10,7 +10,7 @@ public class Marshal {
     // integer numbers, strings, boolean, currency(to string since it has tostring
     // function),
     // need make for single variable and structure argument
-    public static byte[] stringToByte(String toConvert, int rand) {
+    public static byte[] stringToByte(String toConvert, Integer rand) {
         String msgID = String.valueOf(rand) + ":"; 
         toConvert = msgID + toConvert;
         byte[] converting = toConvert.getBytes(Constants.commonCharset);

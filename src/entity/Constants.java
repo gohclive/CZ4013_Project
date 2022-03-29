@@ -27,11 +27,12 @@ public class Constants {
 	public static final int serverPortNumber = 6666;
 	public static final int messageLength = 512;
 	public static final int requestTimeout = 15000; // millisecond
+	public static final int retry = 3;
 	public static final String delimiter = "|";
 	public static int clientPort = 122;
 	public static final Charset commonCharset = StandardCharsets.UTF_8;
 	public static int messageIdentifer = 1000;
-	public static boolean AT_MOST_ONCE = false;
+	public static boolean AT_LEAST_ONCE = false;
 	
 	//error messages
 	public static final String ACCOUNTNOTFOUND = "|ERROR|"+ "Account not found!" + "|";

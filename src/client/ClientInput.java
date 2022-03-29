@@ -1,5 +1,6 @@
 package client;
 
+import java.net.InetAddress;
 import java.util.Currency;
 import java.util.Set;
 
@@ -11,7 +12,6 @@ import server.Server;
 
 public class ClientInput
 {
-	private Server server = new Server();
 	public CURRENCY[] allCurrency = CURRENCY.values();
 	public boolean currencyCheck = false; 
 	public boolean accountCheck = false;
@@ -25,7 +25,7 @@ public class ClientInput
 	public String userPassword = "";
 	public String userCurrencyType;
 	private int portNumber;
-	private int serverIPAddress;
+	private InetAddress serverIPAddress;
 	private Client client = new Client(serverIPAddress, portNumber);
 
 	public ClientInput() {

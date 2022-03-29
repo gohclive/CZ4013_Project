@@ -13,14 +13,13 @@ public class Message {
 		return Message.messageID;
 	}
 	public String getContent(){
-		System.out.println(messageContent);
 		return Message.messageContent;
 	}
 
 	public void setMessageID(int messageID) {
 		Message.messageID = messageID;
 	}
-
+	
 	public void setContent(String content) {
 		Message.messageContent = content;
 	}
