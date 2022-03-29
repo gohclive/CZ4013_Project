@@ -3,9 +3,7 @@ package client;
 import entity.Message;
 import entity.Constants.CURRENCY;
 import main.MainFunction;
-
 import java.net.InetAddress;
-
 import entity.Account;
 import entity.Constants;
 
