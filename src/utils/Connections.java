@@ -19,11 +19,12 @@ import entity.Constants;
 
 public class Connections {
 
-    public static void sendMsgToServer(String messagetosend, DatagramSocket clientSocket) {
+    public static void sendMsgToServer(String messagetosend, DatagramSocket clientSocket, String serverIp) {
         try {
+        	InetAddress ip = InetAddress.getByName(serverIp);
             byte[] buf = null;
             buf = Marshal.stringToByte(messagetosend);
-            DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, Constants.serverIP, Constants.serverPortNumber);
+            DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, ip, Constants.serverPortNumber);
             clientSocket.send(dpmsg);
         } catch (Exception e) {
             e.printStackTrace();

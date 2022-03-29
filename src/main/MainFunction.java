@@ -2,7 +2,9 @@ package main;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.SocketTimeoutException;
 import java.sql.Connection;
+import java.util.Scanner;
 
 import client.*;
 import entity.Constants;
@@ -18,23 +20,40 @@ public class MainFunction {
 	}
 
 	public void mainMenu() {
+		Scanner sc =  new Scanner(System.in);
+		System.out.println("Please Enter Server Ip Address: ");
+		String serverIp = sc.next();
+		System.out.println("pinging server...");
+		
+		
 		DatagramSocket clientSocket = null;
+		
 		clientSocket = Connections.clientSocketPort(clientSocket);
+		clientSocket.setSoTimeout(Constants.requestTimeout);
+		Connections.sendMsgToServer("0|", clientSocket, serverIp);
+		
+		int count = 0;
+		while(count != 3) {
+			try {
+				Connections.clientToReceive(clientSocket);
+			}
+			catch((SocketTimeoutException e){
+				//resend
+				count++;
+				Connections.sendMsgToServer("0|", clientSocket, serverIp);
+			}
+		}
+		if (count == 3) {
+			System.out.println("Server not online!");
+		}
+		
+		
 		printMenu(0);
 		while (exit == false) {
 			int userInput = GetUserInput.userInputInt();
 			switch (userInput) {
 				case 1:
-					try {
-						//Connections.clientAddrPort(clientSocket);
-						Connections.sendMsgToServer("Testing joke", clientSocket);
-						String result = Connections.clientToReceive(clientSocket);
-						System.out.println(result);
-						// clientInput.openNewAccount();
-						break;
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					clientInput.openNewAccount();
 				case 2:
 					clientInput.closeExistingAccount();
 					break;
