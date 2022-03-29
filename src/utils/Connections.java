@@ -17,14 +17,16 @@ import java.net.UnknownHostException;
 import utils.Marshal;
 
 import entity.Constants;
+import entity.Message;
 
 public class Connections {
 
-    public static void sendMsgToServer(String messagetosend, DatagramSocket clientSocket, String serverIp) {
+    public static void sendMsgToServer(Message messagetosend, DatagramSocket clientSocket, String serverIp) {
         try {
         	InetAddress ip = InetAddress.getByName(serverIp);
             byte[] buf = null;
-            buf = Marshal.stringToByte(messagetosend,null);
+            String msg = messagetosend.toString();
+            buf = Marshal.stringToByte(msg,null);
             DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, ip, Constants.serverPortNumber);
             clientSocket.send(dpmsg);
         } catch (Exception e) {

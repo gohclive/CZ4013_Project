@@ -25,14 +25,14 @@ public class Message {
 		Message.messageContent = content;
 	}
 
-	public void sendMessageToServer(){
+	public String MessageToString(){
 		StringBuilder builder = new StringBuilder();
         builder.append(messageID);
-		builder.append("|");
+		builder.append(":");
 		builder.append(messageContent);
 		String resMessage = builder.toString();
 		setContent(resMessage);
-		System.out.println("resMessage" + resMessage);
+		return resMessage;
 	}
 
 	public static Message replyMessage() {

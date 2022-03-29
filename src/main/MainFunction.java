@@ -15,7 +15,6 @@ import entity.Message;
 import utils.Connections;
 
 public class MainFunction {
-	ClientInput clientInput = new ClientInput();
 	private boolean exit = false;
 
 	public static void main(String[] args) throws IOException {
@@ -35,13 +34,14 @@ public class MainFunction {
 				System.out.println("Please Enter Server Ip Address: ");
 				String serverIp = sc.next();
 				ip = InetAddress.getByName(serverIp);
+				done = true;
 			} catch (UnknownHostException e) {
 				System.out.println("invalid IP address!");
 			}
 		}
 		
-
 		Client c = new Client(ip, Constants.clientPort);
+		ClientInput clientInput = new ClientInput(c);
 		
 		DatagramSocket clientSocket = null;
 		
@@ -70,24 +70,26 @@ public class MainFunction {
 		printMenu(0);
 		while (exit == false) {
 			int userInput = GetUserInput.userInputInt();
+			Message m = null;
 			switch (userInput) {
 				case 1:
-					clientInput.openNewAccount();
+					m = clientInput.openNewAccount();
+					Connections.sendMsgToServer(m, clientSocket, ip.toString());
 					break;
 				case 2:
-					clientInput.closeExistingAccount();
+					m = clientInput.closeExistingAccount();
 					break;
 				case 3:
-					clientInput.depositOrWithdraw();
+					m = clientInput.depositOrWithdraw();
 					break;
 				case 4:
 					clientInput.monitorUpdates();
 					break;
 				case 5:
-					clientInput.transferMoney();
+					m = clientInput.transferMoney();
 					break;
 				case 6:
-					clientInput.checkBalance();
+					m = clientInput.checkBalance();
 					break;
 				case 7:
 					System.out.println("Turning Off System...");
