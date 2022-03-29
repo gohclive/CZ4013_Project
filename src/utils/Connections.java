@@ -108,4 +108,12 @@ public class Connections {
         return socket;
     }
 
+    public static DatagramSocket setSocketTimeout(DatagramSocket socket) {
+        try {
+            socket.setSoTimeout(Constants.requestTimeout);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return socket;
+    }
 }
