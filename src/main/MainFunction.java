@@ -22,7 +22,7 @@ public class MainFunction {
 		main.mainMenu();
 	}
 
-	public void mainMenu() {
+	public void mainMenu() throws IOException {
 		
 		Scanner sc =  new Scanner(System.in);
 		InetAddress ip = null;
@@ -55,19 +55,21 @@ public class MainFunction {
 		printMenu(0);
 		while (exit == false) {
 			int userInput = GetUserInput.userInputInt();
-			
 			Message m = null;
+			int count =0;
+			String res = null;
 			switch (userInput) {
 				case 1:
-					int count = 0;
-					String res = null;
 					m = clientInput.openNewAccount();
 					while(count <= Constants.retry){
 						try {
-							clientSocket.setSoTimeout(Constants.requestTimeout);
 							Connections.sendMsgToServer(m, clientSocket, ip);
-							res = Connections.clientToReceive(clientSocket);
-							System.out.println(res);
+							clientSocket.setSoTimeout(Constants.requestTimeout);
+							if ((res = Connections.clientToReceive(clientSocket)) != null){ 
+								System.out.println(res);
+								count=0;
+								break;
+							}
 						} catch (SocketException e) {
 							Connections.sendMsgToServer(m, clientSocket, ip);
 							res = Connections.clientToReceive(clientSocket);
@@ -81,22 +83,110 @@ public class MainFunction {
 						String[] result = res.split("\\|");
 						System.out.println(result[2]);
 					}
-					
 					break;
 				case 2:
 					m = clientInput.closeExistingAccount();
+					while(count <= Constants.retry){
+						try {
+							Connections.sendMsgToServer(m, clientSocket, ip);
+							clientSocket.setSoTimeout(Constants.requestTimeout);
+							if ((res = Connections.clientToReceive(clientSocket)) != null){ 
+								System.out.println(res);
+								count=0;
+								break;
+							}
+						} catch (SocketException e) {
+							Connections.sendMsgToServer(m, clientSocket, ip);
+							res = Connections.clientToReceive(clientSocket);
+						}
+						count++;
+					}
+					if(res == null){
+						System.out.println("unable to perform task, try again later");
+					}
+					else{
+						String[] result = res.split("\\|");
+						System.out.println(result[2]);
+					}
 					break;
 				case 3:
 					m = clientInput.depositOrWithdraw();
+					while(count <= Constants.retry){
+						try {
+							Connections.sendMsgToServer(m, clientSocket, ip);
+							clientSocket.setSoTimeout(Constants.requestTimeout);
+							if ((res = Connections.clientToReceive(clientSocket)) != null){ 
+								System.out.println(res);
+								count=0;
+								break;
+							}
+						} catch (SocketException e) {
+							Connections.sendMsgToServer(m, clientSocket, ip);
+							res = Connections.clientToReceive(clientSocket);
+						}
+						count++;
+					}
+					if(res == null){
+						System.out.println("unable to perform task, try again later");
+					}
+					else{
+						String[] result = res.split("\\|");
+						System.out.println(result[2]);
+					}
 					break;
 				case 4:
 					clientInput.monitorUpdates();
+					
 					break;
 				case 5:
 					m = clientInput.transferMoney();
+					while(count <= Constants.retry){
+						try {
+							Connections.sendMsgToServer(m, clientSocket, ip);
+							clientSocket.setSoTimeout(Constants.requestTimeout);
+							if ((res = Connections.clientToReceive(clientSocket)) != null){ 
+								System.out.println(res);
+								count=0;
+								break;
+							}
+						} catch (SocketException e) {
+							Connections.sendMsgToServer(m, clientSocket, ip);
+							res = Connections.clientToReceive(clientSocket);
+						}
+						count++;
+					}
+					if(res == null){
+						System.out.println("unable to perform task, try again later");
+					}
+					else{
+						String[] result = res.split("\\|");
+						System.out.println(result[2]);
+					}
 					break;
 				case 6:
 					m = clientInput.checkBalance();
+					while(count <= Constants.retry){
+						try {
+							Connections.sendMsgToServer(m, clientSocket, ip);
+							clientSocket.setSoTimeout(Constants.requestTimeout);
+							if ((res = Connections.clientToReceive(clientSocket)) != null){ 
+								System.out.println(res);
+								count=0;
+								break;
+							}
+						} catch (SocketException e) {
+							Connections.sendMsgToServer(m, clientSocket, ip);
+							res = Connections.clientToReceive(clientSocket);
+						}
+						count++;
+					}
+					if(res == null){
+						System.out.println("unable to perform task, try again later");
+					}
+					else{
+						String[] result = res.split("\\|");
+						System.out.println(result[2]);
+					}
 					break;
 				case 7:
 					System.out.println("Turning Off System...");

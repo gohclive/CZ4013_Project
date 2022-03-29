@@ -13,6 +13,7 @@ import java.lang.Math;
 
 import javax.xml.crypto.Data;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import utils.Marshal;
 
@@ -48,7 +49,7 @@ public class Connections {
         }
     }
 
-    public static String clientToReceive(DatagramSocket clientSocket) {
+    public static String clientToReceive(DatagramSocket clientSocket) throws IOException {
         String result = null;
         try {
             byte[] recvbuffer = new byte[Constants.messageLength];
@@ -57,8 +58,9 @@ public class Connections {
             String recvdString = Marshal.byteToString(recvbuffer);
             result = recvdString;
             //System.out.println(recvdString);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SocketTimeoutException e) {
+            System.out.println("Retrying...");
+            //e.printStackTrace();
         }
         return result;
     }
