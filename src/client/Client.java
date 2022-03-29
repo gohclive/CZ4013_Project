@@ -34,15 +34,6 @@ public class Client {
 		return new Message(getMessageId(), null);
 	}
 
-    public Message ping(){
-        Message message = createRequestMessage();
-        StringBuilder builder = new StringBuilder();
-        builder.append(0);
-        builder.append(breaker);
-        String messageString = builder.toString();
-        message.setContent(messageString);
-        return message;
-    }
 
 	public Message createAccount(String userName, String userPassword, CURRENCY selectedCurrency){
         Message message = createRequestMessage();
@@ -54,6 +45,7 @@ public class Client {
         builder.append(userPassword);
         builder.append(breaker);
         builder.append(selectedCurrency);
+        builder.append(breaker);
         String messageString = builder.toString();
         System.out.println("\ncreating account: " + messageString + "\n");
         message.setContent(messageString);
@@ -70,6 +62,7 @@ public class Client {
         builder.append(userAccount);
         builder.append(breaker);
         builder.append(userPassword);
+        builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
         
@@ -92,6 +85,7 @@ public class Client {
         builder.append(selectedCurrency);
         builder.append(breaker);
         builder.append(depositSum);
+        builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
         
@@ -113,6 +107,7 @@ public class Client {
         builder.append(selectedCurrency);
         builder.append(breaker);
         builder.append(withdrawSum);
+        builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
         
@@ -127,6 +122,7 @@ public class Client {
         builder.append(7);
         builder.append(breaker);
         builder.append(interval);
+        builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
 
@@ -150,6 +146,7 @@ public class Client {
         builder.append(recipientAcc);
         builder.append(breaker);
         builder.append(transAmount);
+        builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
         
@@ -167,6 +164,7 @@ public class Client {
         builder.append(userAccount);
         builder.append(breaker);
         builder.append(userPassword);
+        builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
         
