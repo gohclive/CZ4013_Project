@@ -10,13 +10,9 @@ public class Marshal {
     // integer numbers, strings, boolean, currency(to string since it has tostring
     // function),
     // need make for single variable and structure argument
-    public static byte[] stringToByte(String toConvert) {
-        Random rand = new Random();
-        int id = rand.nextInt(Constants.messageIdentifer);
-        String msgID = String.valueOf(id) + "|"; 
-        // System.out.println("This is msg id: " + msgID);
-        toConvert = toConvert + msgID;
-        // System.out.println("This is toConvert: " + toConvert);
+    public static byte[] stringToByte(String toConvert, int rand) {
+        String msgID = String.valueOf(rand) + ":"; 
+        toConvert = msgID + toConvert;
         byte[] converting = toConvert.getBytes(Constants.commonCharset);
         return converting;
     }
@@ -36,8 +32,16 @@ public class Marshal {
         return converting;
     }
 
-    public static String[] decodeForServer(String clientInput){
+    public static String[] decodeMessage(String clientInput){
         String[] token = clientInput.split("\\|");
+        // for (int i=0;i<=clientInput.length();i++){
+        //     System.out.println(token[i]);
+        // }
+        return token;
+    }
+
+    public static String[] decodeForServer(String clientInput){
+        String[] token = clientInput.split(":");
         // for (int i=0;i<=clientInput.length();i++){
         //     System.out.println(token[i]);
         // }
@@ -58,6 +62,7 @@ public class Marshal {
         String length = byteToString(bytetostrip);
         return length.length();
     }
+    
     
 
 }

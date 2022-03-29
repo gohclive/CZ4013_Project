@@ -46,12 +46,16 @@ public class TestingGround {
         // int unpad = Integer.valueOf(padded);
         // System.out.println(unpad);
         String tez = "5|clivegoh|1131411111|12345678|USD|1263850000|20.0|";
-        byte[] again = Marshal.stringToByte(tez);
+        byte[] again = Marshal.stringToByte(tez, 1231);
+        // byte[] agaragar = Marshal.stringToByte(tez);
         String recvstring = Marshal.byteToString(again);
-        System.out.println(tez.length());
-        System.out.println(tez);
-        System.out.println(again.length);
-        System.out.println(again);
+        String[] serverDecode = Marshal.decodeForServer(recvstring);
+        // String rerere = Marshal.byteToString(agaragar);
+        // System.out.println(tez.length());
+        // System.out.println(tez);
+        System.out.println(serverDecode[1]);
+        System.out.println(serverDecode[0]);
         System.out.println(recvstring);
+        // System.out.println(rerere);
     }
 }

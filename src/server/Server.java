@@ -78,7 +78,7 @@ public class Server {
 				Account a = null;
 				switch (Integer.parseInt(message[0])) {
 				case 0:
-					msg = "0|SUCCESS|Server is online!";
+					msg = "0|SUCCESS|Server is online!|";
 					Connections.sendMsgToClient(msg, DpReceive);
 				case 1:
 					//create account

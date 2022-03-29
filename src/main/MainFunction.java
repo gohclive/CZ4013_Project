@@ -37,7 +37,7 @@ public class MainFunction {
 			try {
 				Connections.clientToReceive(clientSocket);
 			}
-			catch((SocketTimeoutException e){
+			catch(SocketTimeoutException e){
 				//resend
 				count++;
 				Connections.sendMsgToServer("0|", clientSocket, serverIp);
