@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.sql.Connection;
 import java.util.Scanner;
@@ -29,15 +30,16 @@ public class MainFunction {
 		DatagramSocket clientSocket = null;
 		
 		clientSocket = Connections.clientSocketPort(clientSocket);
-		clientSocket.setSoTimeout(Constants.requestTimeout);
+		clientSocket = Connections.setSocketTimeout(clientSocket);
 		Connections.sendMsgToServer("0|", clientSocket, serverIp);
 		
 		int count = 0;
 		while(count != 3) {
 			try {
+				clientSocket.setSoTimeout(Constants.requestTimeout);
 				Connections.clientToReceive(clientSocket);
 			}
-			catch(SocketTimeoutException e){
+			catch(SocketException e){
 				//resend
 				count++;
 				Connections.sendMsgToServer("0|", clientSocket, serverIp);

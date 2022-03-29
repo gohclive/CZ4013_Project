@@ -30,7 +30,8 @@ public class Constants {
 	public static final String delimiter = "|";
 	public static int clientPort = 122;
 	public static final Charset commonCharset = StandardCharsets.UTF_8;
-	public static int messageIdentifer = 1000;	
+	public static int messageIdentifer = 1000;
+	public static boolean AT_MOST_ONCE = false;
 	
 	//error messages
 	public static final String ACCOUNTNOTFOUND = "|ERROR|"+ "Account not found!" + "|";
