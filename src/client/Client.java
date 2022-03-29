@@ -39,6 +39,8 @@ public class Client {
         StringBuilder builder = new StringBuilder();
         builder.append(0);
         builder.append(breaker);
+        String messageString = builder.toString();
+        message.setContent(messageString);
         return message;
     }
 

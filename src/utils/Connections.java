@@ -21,13 +21,12 @@ import entity.Message;
 
 public class Connections {
 
-    public static void sendMsgToServer(Message messagetosend, DatagramSocket clientSocket, String serverIp) {
+    public static void sendMsgToServer(Message messagetosend, DatagramSocket clientSocket, InetAddress serverIp) {
         try {
-        	InetAddress ip = InetAddress.getByName(serverIp);
             byte[] buf = null;
             String msg = messagetosend.toString();
             buf = Marshal.stringToByte(msg,null);
-            DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, ip, Constants.serverPortNumber);
+            DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, serverIp, Constants.serverPortNumber);
             clientSocket.send(dpmsg);
         } catch (Exception e) {
             e.printStackTrace();

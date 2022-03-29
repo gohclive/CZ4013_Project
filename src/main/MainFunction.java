@@ -25,14 +25,13 @@ public class MainFunction {
 	public void mainMenu() {
 		
 		Scanner sc =  new Scanner(System.in);
-		
-		System.out.println("pinging server...");
 		InetAddress ip = null;
 		boolean done = false;
 		while(!done){
 			try {
 				System.out.println("Please Enter Server Ip Address: ");
 				String serverIp = sc.next();
+				System.out.println("pinging server...");
 				ip = InetAddress.getByName(serverIp);
 				done = true;
 			} catch (UnknownHostException e) {
@@ -48,23 +47,9 @@ public class MainFunction {
 		clientSocket = Connections.clientSocketPort(clientSocket);
 		//clientSocket = Connections.setSocketTimeout(clientSocket);
 		Message msg = c.ping();
-		Connections.sendMsgToServer(msg, clientSocket, ip.toString());
-		
-		int count = 0;
-		while(count <= Constants.retry) {
-			try {
-				clientSocket.setSoTimeout(Constants.requestTimeout);
-				Connections.clientToReceive(clientSocket);
-			}
-			catch(SocketException e){
-				//resend
-				count++;
-				Connections.sendMsgToServer(msg, clientSocket, ip.toString());
-			}
-		}
-		if (count == 3) {
-			System.out.println("Server not online!");
-		}
+		System.out.println(msg.MessageToString());
+		Connections.sendMsgToServer(msg, clientSocket, ip);
+
 		 
 		
 		printMenu(0);
@@ -74,7 +59,7 @@ public class MainFunction {
 			switch (userInput) {
 				case 1:
 					m = clientInput.openNewAccount();
-					Connections.sendMsgToServer(m, clientSocket, ip.toString());
+					Connections.sendMsgToServer(m, clientSocket, ip);
 					break;
 				case 2:
 					m = clientInput.closeExistingAccount();
