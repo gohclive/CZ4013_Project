@@ -24,7 +24,7 @@ public class Connections {
         try {
         	InetAddress ip = InetAddress.getByName(serverIp);
             byte[] buf = null;
-            buf = Marshal.stringToByte(messagetosend,20);
+            buf = Marshal.stringToByte(messagetosend,null);
             DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, ip, Constants.serverPortNumber);
             clientSocket.send(dpmsg);
         } catch (Exception e) {
@@ -117,4 +117,6 @@ public class Connections {
         }
         return socket;
     }
+
+
 }

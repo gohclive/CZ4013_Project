@@ -11,8 +11,10 @@ public class Marshal {
     // function),
     // need make for single variable and structure argument
     public static byte[] stringToByte(String toConvert, Integer rand) {
-        String msgID = String.valueOf(rand) + ":"; 
-        toConvert = msgID + toConvert;
+        if(rand != null){
+            String msgID = String.valueOf(rand) + ":"; 
+            toConvert = msgID + toConvert;
+        }
         byte[] converting = toConvert.getBytes(Constants.commonCharset);
         return converting;
     }
