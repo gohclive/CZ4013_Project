@@ -5,6 +5,7 @@ import utils.Connections;
 import utils.Marshal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import entity.Account;
@@ -61,6 +62,12 @@ public class Server {
 
 		// variables
 		ArrayList<Account> accList = new ArrayList<Account>();
+		HashMap<Integer, String> msgCache = null;
+		// hashmap for at-most-once semantics
+		if(Constants.AT_MOST_ONCE) {
+			msgCache = new HashMap<Integer, String>();
+		}
+		
 		initateBankAccounts(accList);
 		int accountnum = 1131411111;
 		
@@ -73,13 +80,19 @@ public class Server {
 				DpReceive = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
 				ds.receive(DpReceive); // to receive the msg
 				String decodedMsg = Marshal.byteToString(receive);
-				String[] message = Marshal.decodeForServer(decodedMsg);
+				String[] idcontent = Marshal.decodeForServer(decodedMsg);
+				String[] message =  Marshal.decodeMessage(idcontent[1]);
+				
 				String msg = "";
 				Account a = null;
+				if (msgCache!= null) {
+					msgCache.put(Integer.parseInt(idcontent[0]),idcontent[1]);
+				}
 				switch (Integer.parseInt(message[0])) {
 				case 0:
 					msg = "0|SUCCESS|Server is online!|";
 					Connections.sendMsgToClient(msg, DpReceive);
+					break;
 				case 1:
 					//create account
 					a = CreateAccount(accountnum, message[1], message[2], CURRENCY.valueOf(message[3]));
