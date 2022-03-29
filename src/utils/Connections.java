@@ -24,7 +24,7 @@ public class Connections {
     public static void sendMsgToServer(Message messagetosend, DatagramSocket clientSocket, InetAddress serverIp) {
         try {
             byte[] buf = null;
-            String msg = messagetosend.toString();
+            String msg = messagetosend.MessageToString();
             buf = Marshal.stringToByte(msg,null);
             DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, serverIp, Constants.serverPortNumber);
             clientSocket.send(dpmsg);
