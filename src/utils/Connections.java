@@ -38,7 +38,7 @@ public class Connections {
             DatagramSocket msg = new DatagramSocket();
             byte buf[] = null;
             // System.out.println("Sending Message To Client: " + messagetosend);
-            buf = Marshal.stringToByte(messagetosend);
+            buf = Marshal.stringToByte(messagetosend, 20);
             DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, clientAddr, clientPort);
             msg.send(dpmsg);
         } catch (Exception e) {

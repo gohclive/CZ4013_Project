@@ -53,8 +53,8 @@ public class TestingGround {
         // String rerere = Marshal.byteToString(agaragar);
         // System.out.println(tez.length());
         // System.out.println(tez);
-        System.out.println(serverDecode[1]);
         System.out.println(serverDecode[0]);
+        System.out.println(serverDecode[1]);
         System.out.println(recvstring);
         // System.out.println(rerere);
     }
