@@ -24,11 +24,10 @@ public class ClientInput
 	public double moneySum = 0;
 	public String userPassword = "";
 	public String userCurrencyType;
-	private int portNumber;
-	private InetAddress serverIPAddress;
-	private Client client = new Client(serverIPAddress, portNumber);
+	private Client client = null;
 
-	public ClientInput() {
+	public ClientInput(Client c) {
+		client = c;
 	}
 
 	public void getGeneralUserInput(int option) {
@@ -62,10 +61,11 @@ public class ClientInput
 		accountPasswordCheck(userPassword);
 	}
 
-	public void openNewAccount() {
+	public Message openNewAccount() {
 		getGeneralUserInput(1);
 		System.out.printf("Name: " + userName + " Password: " + userPassword + " Currency Type: " + userCurrencyType);
-		client.createAccount(userName, userPassword, selectedCurrency);
+		Message msg = client.createAccount(userName, userPassword, selectedCurrency);
+		return msg;
 	}
 
 	public void currencyCheckFunc(String newAccountCurr) {
@@ -133,14 +133,16 @@ public class ClientInput
 		}
 	}
 
-	public void closeExistingAccount() {
+	public Message closeExistingAccount() {
 		getGeneralUserInput(0);
 		System.out
 				.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
-		client.closeAccount(userName, userAccount, userPassword);
+		Message msg = client.closeAccount(userName, userAccount, userPassword);
+		return msg;
 	}
 
-	public void depositOrWithdraw() {
+	public Message depositOrWithdraw() {
+		Message msg = null;
 		System.out.println("------Deposit or Withdraw------\n");
 		getGeneralUserInput(2);
 		System.out.println("\n---To deposit money, enter 1----\n---To withdraw money, enter 2---\n");
@@ -153,7 +155,7 @@ public class ClientInput
 				moneyCheck(moneySum);
 				System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
 						+ " Currency Type: " + selectedCurrency + " Sum: " + moneySum + "\n");
-				client.depositMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
+				msg = client.depositMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
 				break;
 			case 2:
 				System.out.println("--------Withdraw Money--------\n");
@@ -162,9 +164,10 @@ public class ClientInput
 				moneyCheck(moneySum);
 				System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
 						+ " Currency Type: " + selectedCurrency + " Sum: " + moneySum + "\n");
-				client.withdrawMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
+				msg = client.withdrawMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
 				break;
 		}
+		return msg;
 	}
 
 	// monitor updates for a time period
@@ -186,7 +189,7 @@ public class ClientInput
 
 	// transfer balance to another account
 	// function 1
-	public void transferMoney() {
+	public Message transferMoney() {
 		System.out.println("--------Transfer Money--------\n");
 		getGeneralUserInput(2);
 		System.out.println("Please Enter the Account of Recipient: ");
@@ -196,17 +199,19 @@ public class ClientInput
 		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
 				+ " Currency Type: " + selectedCurrency + " Recipient Account: " + recipentAcc + " Sum: " + transAmount
 				+ "\n");
-		client.transferMoney(userName, userAccount, userPassword, selectedCurrency, recipentAcc, transAmount);
+		Message msg = client.transferMoney(userName, userAccount, userPassword, selectedCurrency, recipentAcc, transAmount);
+		return msg;
 	}
 
 	// function 2
 	// check balance (Name, Password, Account Number)
-	public void checkBalance() {
+	public Message checkBalance() {
 		System.out.println("--------Check Balance--------\n");
 		getGeneralUserInput(0);
 		System.out
 				.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
-		client.checkBalanceOfAccount(userName, userAccount, userPassword);
+		Message msg = client.checkBalanceOfAccount(userName, userAccount, userPassword);
+		return msg;
 
 	}
 }
