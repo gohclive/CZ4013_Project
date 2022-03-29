@@ -11,7 +11,8 @@ import java.util.LinkedList;
 import entity.Account;
 import entity.Constants;
 import entity.Constants.CURRENCY;
-
+import java.util.Queue;
+import java.util.ArrayList;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -75,10 +76,11 @@ public class Server {
 			DatagramSocket ds = new DatagramSocket(Constants.serverPortNumber); // make socket and bind it to port
 			byte[] receive = new byte[Constants.messageLength]; // buffer to receive msg
 			DatagramPacket DpReceive = null; // make packet to receive datagrampacket
-
+			Queue<DatagramPacket> receiveQueue = new LinkedList<>();
 			while (true) {
 				DpReceive = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
 				ds.receive(DpReceive); // to receive the msg
+				receiveQueue.add(DpReceive);
 				String decodedMsg = Marshal.byteToString(receive);
 				String[] idcontent = Marshal.decodeForServer(decodedMsg);
 				String[] message =  Marshal.decodeMessage(idcontent[1]);
