@@ -31,26 +31,27 @@ public class MainFunction {
 			try {
 				System.out.println("Please Enter Server Ip Address: ");
 				String serverIp = sc.next();
-				System.out.println("pinging server...");
+				System.out.println("Sending Ping Request to " + serverIp);
 				ip = InetAddress.getByName(serverIp);
-				done = true;
-			} catch (UnknownHostException e) {
+				if(ip.isReachable(5000)){
+					done = true;
+				}
+				else{
+					System.out.println("invalid IP address!");
+				}
+			} catch (IOException e) {
 				System.out.println("invalid IP address!");
 			}
 		}
 		
+
+		//variable
 		Client c = new Client(ip, Constants.clientPort);
 		ClientInput clientInput = new ClientInput(c);
-		
 		DatagramSocket clientSocket = null;
-		
 		clientSocket = Connections.clientSocketPort(clientSocket);
-		//clientSocket = Connections.setSocketTimeout(clientSocket);
-		Message msg = c.ping();
-		System.out.println(msg.MessageToString());
-		Connections.sendMsgToServer(msg, clientSocket, ip);
 
-		 
+		
 		
 		printMenu(0);
 		while (exit == false) {
@@ -59,7 +60,15 @@ public class MainFunction {
 			switch (userInput) {
 				case 1:
 					m = clientInput.openNewAccount();
-					Connections.sendMsgToServer(m, clientSocket, ip);
+					try {
+						clientSocket.setSoTimeout(Constants.requestTimeout);
+						Connections.sendMsgToServer(m, clientSocket, ip);
+						String res = Connections.clientToReceive(clientSocket);
+						System.out.println(res);
+					} catch (SocketException e) {
+						e.printStackTrace();
+					}
+					
 					break;
 				case 2:
 					m = clientInput.closeExistingAccount();

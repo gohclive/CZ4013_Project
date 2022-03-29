@@ -56,7 +56,7 @@ public class Connections {
             clientSocket.receive(dataRecv);
             String recvdString = Marshal.byteToString(recvbuffer);
             result = recvdString;
-            System.out.println(recvdString);
+            //System.out.println(recvdString);
         } catch (Exception e) {
             e.printStackTrace();
         }
