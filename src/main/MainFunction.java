@@ -26,7 +26,6 @@ public class MainFunction {
 		String serverIp = sc.next();
 		System.out.println("pinging server...");
 		
-		
 		DatagramSocket clientSocket = null;
 		
 		clientSocket = Connections.clientSocketPort(clientSocket);
@@ -56,6 +55,7 @@ public class MainFunction {
 			switch (userInput) {
 				case 1:
 					clientInput.openNewAccount();
+					break;
 				case 2:
 					clientInput.closeExistingAccount();
 					break;

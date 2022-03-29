@@ -13,7 +13,7 @@ import server.Server;
 public class ClientInput
 {
 	public CURRENCY[] allCurrency = CURRENCY.values();
-	public boolean currencyCheck = false; 
+	public boolean currencyCheck = false;
 	public boolean accountCheck = false;
 	public boolean passwordCheck = false;
 	public boolean accountNameCheck = false;
@@ -35,26 +35,26 @@ public class ClientInput
 		System.out.println("Please Enter a Name: ");
 		userName = GetUserInput.userInputString();
 		accountNameCheck(userName);
-		// check if it is a unique name 
-		//check the password meets the requirements 
-		if(option == 1 || option == 2) {
-			if(option == 2) {
+		// check if it is a unique name
+		// check the password meets the requirements
+		if (option == 1 || option == 2) {
+			if (option == 2) {
 				System.out.println("Please Enter Account number: ");
 				userAccount = GetUserInput.userInputInt();
-								accountNumberCheck(userAccount);
+				accountNumberCheck(userAccount);
 			}
 			System.out.println("Please Enter Currency Type (e.g. USD, SGD, EURO): ");
 			userCurrencyType = GetUserInput.userInputString();
 			currencyCheckFunc(userCurrencyType);
-			while(currencyCheck == false) {
+			while (currencyCheck == false) {
 				System.out.println("Please insert a valid currency type");
 				userCurrencyType = GetUserInput.userInputString();
 				currencyCheckFunc(userCurrencyType);
-			} 	
+			}
 		} else {
 			System.out.println("Please Enter Account number: ");
 			userAccount = GetUserInput.userInputInt();
-						accountNumberCheck(userAccount);
+			accountNumberCheck(userAccount);
 
 		}
 		System.out.println("Please Enter Password: ");
@@ -70,27 +70,22 @@ public class ClientInput
 
 	public void currencyCheckFunc(String newAccountCurr) {
 		currencyCheck = false;
-		for (CURRENCY currency : allCurrency)
-		{
-			if (currency.toString().equals(newAccountCurr.toUpperCase()))
-			{
+		for (CURRENCY currency : allCurrency) {
+			if (currency.toString().equals(newAccountCurr.toUpperCase())) {
 				currencyCheck = true;
 				selectedCurrency = currency;
 			}
 		}
 	}
 
-	//account name (alphabets) 
+	// account name (alphabets)
 	public void accountNameCheck(String newAccountName) {
 		accountNameCheck = false;
-		while(accountNameCheck == false) {
+		while (accountNameCheck == false) {
 			String regEx = "/^[A-Za-z]+$/";
-			if((userName != null) && (!userName.equals("")) && (userName.matches("^[a-zA-Z]*$")))
-			{
+			if ((userName != null) && (!userName.equals("")) && (userName.matches("^[a-zA-Z]*$"))) {
 				accountNameCheck = true;
-			}
-			else
-			{
+			} else {
 				System.out.println("Please Enter a valid account name (alphabets only): ");
 				userName = GetUserInput.userInputString();
 
@@ -98,25 +93,25 @@ public class ClientInput
 		}
 	}
 
-	//9 digit number int 
-		public void accountNumberCheck(int newAccountNumber) {
-			accountCheck = false;
-			while(accountCheck == false) {
-				if(String.valueOf(userAccount).length() > 9) {
-					System.out.println("Please insert a valid account number (>9 digits): ");
-					userAccount = GetUserInput.userInputInt();
-					//how to check for existing account number? 
-				} else {
-					accountCheck = true;
-				}
+	// 9 digit number int
+	public void accountNumberCheck(int newAccountNumber) {
+		accountCheck = false;
+		while (accountCheck == false) {
+			if (String.valueOf(userAccount).length() <= 9) {
+				System.out.println("Please insert a valid account number (<10 digits): ");
+				userAccount = GetUserInput.userInputInt();
+				// how to check for existing account number?
+			} else {
+				accountCheck = true;
 			}
 		}
+	}
 
-	//8 alphanumeric length string 
+	// 8 alphanumeric length string
 	public void accountPasswordCheck(String newPassword) {
 		passwordCheck = false;
-		while(passwordCheck == false) {
-			if(userPassword.length() == 8 && userPassword.matches("^[a-zA-Z0-9]*$") && (!userPassword.equals(""))) {
+		while (passwordCheck == false) {
+			if (userPassword.length() == 8 && userPassword.matches("^[a-zA-Z0-9]*$") && (!userPassword.equals(""))) {
 				passwordCheck = true;
 			} else {
 				System.out.println("Please Enter a valid Password (8 alphanumeric password): ");
@@ -126,8 +121,8 @@ public class ClientInput
 	}
 
 	public void moneyCheck(double values) {
-		moneyCheck=false;
-		while(moneyCheck==false){
+		moneyCheck = false;
+		while (moneyCheck == false) {
 			System.out.println(moneySum);
 			if (moneySum > 0) {
 				moneyCheck = true;
@@ -137,9 +132,11 @@ public class ClientInput
 			}
 		}
 	}
+
 	public void closeExistingAccount() {
 		getGeneralUserInput(0);
-		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
+		System.out
+				.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
 		client.closeAccount(userName, userAccount, userPassword);
 	}
 
@@ -148,27 +145,29 @@ public class ClientInput
 		getGeneralUserInput(2);
 		System.out.println("\n---To deposit money, enter 1----\n---To withdraw money, enter 2---\n");
 		int option = GetUserInput.userInputInt();
-		switch(option) {
-		case 1: 
-			System.out.println("--------Deposit Money--------\n");
-			System.out.println("Please Enter the sum to deposit.");
-			moneySum = GetUserInput.userInputDouble();
-			moneyCheck(moneySum);
-			System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Sum: " + moneySum + "\n");
-			client.depositMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
-			break;
-		case 2: 
-			System.out.println("--------Withdraw Money--------\n");
-			System.out.println("Please Enter the sum to withdraw.");
-			 moneySum = GetUserInput.userInputDouble();
-			moneyCheck(moneySum);
-			System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Sum: " + moneySum + "\n");
-			client.withdrawMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
-			break;
+		switch (option) {
+			case 1:
+				System.out.println("--------Deposit Money--------\n");
+				System.out.println("Please Enter the sum to deposit.");
+				moneySum = GetUserInput.userInputDouble();
+				moneyCheck(moneySum);
+				System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
+						+ " Currency Type: " + selectedCurrency + " Sum: " + moneySum + "\n");
+				client.depositMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
+				break;
+			case 2:
+				System.out.println("--------Withdraw Money--------\n");
+				System.out.println("Please Enter the sum to withdraw.");
+				moneySum = GetUserInput.userInputDouble();
+				moneyCheck(moneySum);
+				System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
+						+ " Currency Type: " + selectedCurrency + " Sum: " + moneySum + "\n");
+				client.withdrawMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
+				break;
 		}
 	}
 
-	//monitor updates for a time period
+	// monitor updates for a time period
 	public void monitorUpdates() {
 		System.out.println("--------Monitor Updates--------\n");
 		System.out.println("Please enter the monitor interval time: ");
@@ -176,34 +175,37 @@ public class ClientInput
 		System.out.println("Monitor Interval Time: " + monitorIntervalTime);
 		client.monitorUpdates(monitorIntervalTime);
 
-		//get the system time in nano seconds
+		// get the system time in nano seconds
 		long monitorStartTime = System.nanoTime();
-		//while the updates are within the period of time
-		while(((System.nanoTime() - monitorStartTime)/ 1e9) <= monitorIntervalTime){
-			//get the updates from server
+		// while the updates are within the period of time
+		while (((System.nanoTime() - monitorStartTime) / 1e9) <= monitorIntervalTime) {
+			// get the updates from server
 		}
 		System.out.println("Monitoring Period ended...");
 	}
 
-	//transfer balance to another account 
-	//function 1 
+	// transfer balance to another account
+	// function 1
 	public void transferMoney() {
 		System.out.println("--------Transfer Money--------\n");
 		getGeneralUserInput(2);
 		System.out.println("Please Enter the Account of Recipient: ");
-		int recipentAcc =  GetUserInput.userInputInt();
+		int recipentAcc = GetUserInput.userInputInt();
 		System.out.println("Please Enter amount to transfer: ");
 		double transAmount = GetUserInput.userInputDouble();
-		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + " Currency Type: " + selectedCurrency + " Recipient Account: " + recipentAcc + " Sum: " + transAmount + "\n");
+		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
+				+ " Currency Type: " + selectedCurrency + " Recipient Account: " + recipentAcc + " Sum: " + transAmount
+				+ "\n");
 		client.transferMoney(userName, userAccount, userPassword, selectedCurrency, recipentAcc, transAmount);
 	}
 
-	//function 2 
-	//check balance (Name, Password, Account Number) 
+	// function 2
+	// check balance (Name, Password, Account Number)
 	public void checkBalance() {
 		System.out.println("--------Check Balance--------\n");
 		getGeneralUserInput(0);
-		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
+		System.out
+				.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
 		client.checkBalanceOfAccount(userName, userAccount, userPassword);
 
 	}
