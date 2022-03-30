@@ -73,6 +73,7 @@ public class MainFunction {
 								break;
 							}
 						} catch (SocketException e) {
+							System.out.println("Retrying...");
 							Connections.sendMsgToServer(m, clientSocket, ip);
 							res = Connections.clientToReceive(clientSocket);
 						}
@@ -141,18 +142,18 @@ public class MainFunction {
 					while ((System.currentTimeMillis() - startTime) <= time * 1000) {
 						try {
 							clientSocket.setSoTimeout(1000);
-							res = Connections.clientToReceive(clientSocket);
-							if (res != null) {
+							if ((res = Connections.clientToReceive(clientSocket)) != null) {
 								result = res.split("\\|");
-								System.out.println(result.length);
+								System.out.println("This is result length: " + result.length);
 							}
-							if (result.length > 1) {
+							if (result != null && result.length > 1)  {
 								if (result[1].equalsIgnoreCase("success")) {
 									DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 									LocalDateTime now = LocalDateTime.now();
 									switch (Integer.parseInt(result[0])) {
 										case 1:
 											System.out.println(dtf.format(now) + ": New account is created.");
+											result = null;
 											break;
 										case 2:
 											System.out.println(dtf.format(now) + ": Account has been closed.");
