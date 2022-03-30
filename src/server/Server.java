@@ -40,9 +40,6 @@ public class Server {
 	}
 
 
-	public void monitorUpdates(int intervals) {
-
-	}
 
 	public static void initateBankAccounts(ArrayList<Account> accList) {
 		// add initial bank accounts
@@ -63,6 +60,7 @@ public class Server {
 
 		// variables
 		ArrayList<Account> accList = new ArrayList<Account>();
+		ArrayList<DatagramPacket> broadcastList = new ArrayList<DatagramPacket>();
 		HashMap<Integer, String> msgCache = null;
 		// hashmap for at-most-once semantics
 		if(Constants.AT_LEAST_ONCE) {
@@ -83,8 +81,8 @@ public class Server {
 				receiveQueue.add(DpReceive); // add to queue
 				if (!receiveQueue.isEmpty()){
 					System.out.println("Queue is not empty!");
-					DatagramPacket DpQueue = receiveQueue.remove();
-					byte[] queueReceive = DpQueue.getData();
+					DpReceive = receiveQueue.remove();
+					receive = DpReceive.getData();
 					// System.out.println(queueReceive);
 					// String decodedMsg = Marshal.byteToString(receive);
 					// System.out.println(decodedMsg);
@@ -242,8 +240,16 @@ public class Server {
 					Connections.sendMsgToClient(msg, DpReceive);
 					break;
 				case 7:
+					//add broadcast
+					broadcastList.add(DpReceive);
+
 					break;
 				case 8:
+					for (DatagramPacket datagramPacket : broadcastList) {
+						if(datagramPacket.getAddress() == DpReceive.getAddress()){
+							broadcastList.remove(datagramPacket);
+						}
+					}
 					break;
 					
 				default:
@@ -256,6 +262,14 @@ public class Server {
 					System.out.println("Client sent bye.....EXITING");
 					break;
 				}
+
+				
+				if(!broadcastList.isEmpty()){
+					for (int i = 0; i < broadcastList.size(); i++) {
+						Connections.sendMsgToClient(msg, DpReceive);
+					}
+				}
+				
 
 				// Clear the buffer after every message.
 				receive = new byte[65535];
