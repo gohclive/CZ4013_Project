@@ -63,7 +63,7 @@ public class Server {
 		ArrayList<DatagramPacket> broadcastList = new ArrayList<DatagramPacket>();
 		HashMap<Integer, String> msgCache = null;
 		// hashmap for at-most-once semantics
-		Constants.AT_MOST_ONCE = true;
+		Constants.AT_MOST_ONCE = false;
 		if(Constants.AT_MOST_ONCE) {
 			msgCache = new HashMap<Integer, String>();
 		}
