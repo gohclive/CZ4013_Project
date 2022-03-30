@@ -63,6 +63,7 @@ public class MainFunction {
 			Message m = null;
 			int count =0;
 			String res = null;
+			String[] result = null;
 			switch (userInput) {
 				case 1:
 					m = clientInput.openNewAccount();
@@ -142,7 +143,7 @@ public class MainFunction {
 					Connections.sendMsgToServer(m, clientSocket, ip);
 					double time =  Double.parseDouble(Marshal.decodeMessage(m.getContent())[1]);
 					long startTime = System.currentTimeMillis();
-					String[] result = null;
+					
 					while((System.currentTimeMillis() - startTime) <= time * 1000){
 						try{
 							res = Connections.clientToReceive(clientSocket);
@@ -199,7 +200,7 @@ public class MainFunction {
 						System.out.println("unable to perform task, try again later");
 					}
 					else{
-						String[] result = res.split("\\|");
+						result = res.split("\\|");
 						System.out.println(result[2]);
 					}
 					break;
@@ -223,7 +224,7 @@ public class MainFunction {
 						System.out.println("unable to perform task, try again later");
 					}
 					else{
-						String[] result = res.split("\\|");
+						result = res.split("\\|");
 						System.out.println(result[2]);
 					}
 					break;
