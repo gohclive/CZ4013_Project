@@ -74,9 +74,9 @@ public class Server {
 		try {
 			DatagramSocket ds = new DatagramSocket(Constants.serverPortNumber); // make socket and bind it to port
 			byte[] receive = new byte[Constants.messageLength]; // buffer to receive msg
-			DatagramPacket DpReceive = null; // make packet to receive datagrampacket
 			Queue<DatagramPacket> receiveQueue = new LinkedList<>();
 			while (true) {
+				DatagramPacket DpReceive = null; // make packet to receive datagrampacket
 				if (getRand() >= Constants.PACKETLOSTPROB) {
 					DpReceive = new DatagramPacket(receive, receive.length); // packe to read buffer and length of
 																				// buffer
@@ -92,6 +92,7 @@ public class Server {
 					}
 				} else {
 					System.out.println("SIMULATED PACKET LOSS, SERVER IGNORE PACKET");
+
 				}
 
 				if (DpReceive != null) {
