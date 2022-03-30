@@ -159,11 +159,18 @@ public class Server {
 							} else if (!a.getPassword().equals(message[3])) {
 								msg = "3" + Constants.INCORRECTPASSWORD;
 							} else {
-								// TODO currency conversion
+								// get the balance input from user
+								double balance = Double.parseDouble(message[5]);
+								// get the current currency value of the account
+								String currencyOfAccount = a.getCurrency().toString();
+								// convert the currency value to derive the balance input
+								double balanceResult = convertCurrency(balance, message[4], currencyOfAccount);
 								int i = accList.indexOf(a);
 								double bal = accList.get(i).getBalance();
-								accList.get(i).setBalance(bal + Double.parseDouble(message[5]));
-								msg = "3|SUCCESS|" + a.getNumber() + " balance is " + accList.get(i).getBalance() + "|";
+								// set the new balance for the account
+								accList.get(i).setBalance(bal + balanceResult);
+								msg = "3|SUCCESS|" + "Your Account " + a.getNumber() + ": New Balance is "
+										+ accList.get(i).getBalance() + "|";
 							}
 							resultcache.put(Integer.parseInt(idcontent[0]), msg);
 							Connections.sendMsgToClient(msg, DpReceive);
@@ -179,13 +186,20 @@ public class Server {
 							} else if (!a.getPassword().equals(message[3])) {
 								msg = "4" + Constants.INCORRECTPASSWORD;
 							} else {
-								if (a.getBalance() < Double.parseDouble(message[5])) {
+								// get the balance input from user
+								double balance = Double.parseDouble(message[5]);
+								// get the current currency value of the account
+								String currencyOfAccount = a.getCurrency().toString();
+								// convert the currency value to derive the balance input
+								double balanceResult = convertCurrency(balance, message[4], currencyOfAccount);
+								if (a.getBalance() < balanceResult) {
 									msg = "4" + Constants.INSUFFICIENTBAL;
 								} else {
 									int i = accList.indexOf(a);
 									double bal = accList.get(i).getBalance();
-									accList.get(i).setBalance(bal - Double.parseDouble(message[5]));
-									msg = "4|SUCCESS|" + "your account " + a.getNumber() + ": balance is "
+									// set new balance for account
+									accList.get(i).setBalance(bal - balanceResult);
+									msg = "4|SUCCESS|" + "Your Account " + a.getNumber() + ": balance is "
 											+ accList.get(i).getBalance() + "|";
 								}
 							}
@@ -208,13 +222,24 @@ public class Server {
 								} else {
 									// update owner account
 									int i = accList.indexOf(owner);
+									// get current balance in owner account
 									double bal = accList.get(i).getBalance();
+									// get the balance input from user
+									double balance = Double.parseDouble(message[6]);
+									// get the current currency value of the account
+									String currencyOfAccount = accList.get(i).getCurrency().toString();
+									// convert the currency value to derive the balance input
+									double balanceResult = convertCurrency(balance, message[4], currencyOfAccount);
+
 									int j = accList.indexOf(receiver);
-									if (bal >= Double.parseDouble(message[6])) {
-										accList.get(i).setBalance(bal - Double.parseDouble(message[6]));
+									if (bal >= balanceResult) {
+										accList.get(i).setBalance(bal - balanceResult);
 										// update receiver account
 										bal = accList.get(j).getBalance();
-										accList.get(j).setBalance(bal + Double.parseDouble(message[6]));
+										String receiverCurr = accList.get(j).getCurrency().toString();
+										double balanceRecResult = convertCurrency(balance, message[4], receiverCurr);
+										System.out.println(balanceRecResult);
+										accList.get(j).setBalance(bal + balanceRecResult);
 										msg = "6|SUCCESS|Transfer Successful! Your balance is "
 												+ accList.get(i).getBalance() + "|";
 									} else {
@@ -314,30 +339,25 @@ public class Server {
 		return r.nextInt(10);
 	}
 
-	public static double convertCurrency(int value, String valuecurrency, String Acccurrency){
+	public static double convertCurrency(double value, String valuecurrency, String Acccurrency) {
 		double result = 0.0;
-		if (valuecurrency.equalsIgnoreCase("sgd")){
-			if (Acccurrency.equalsIgnoreCase("usd")){
+		if (valuecurrency.equalsIgnoreCase("sgd")) {
+			if (Acccurrency.equalsIgnoreCase("usd")) {
 				result = value * Constants.SGDUSD;
-			}
-			else if (Acccurrency.equalsIgnoreCase("euro")){
+			} else if (Acccurrency.equalsIgnoreCase("euro")) {
 				result = value * Constants.SGDEURO;
 			}
-		}
-		else if (valuecurrency.equalsIgnoreCase("usd")){
-			if (Acccurrency.equalsIgnoreCase("sgd")){
+		} else if (valuecurrency.equalsIgnoreCase("usd")) {
+			if (Acccurrency.equalsIgnoreCase("sgd")) {
 				result = value * Constants.USDSGD;
-			}
-			else if (Acccurrency.equalsIgnoreCase("euro")){
+			} else if (Acccurrency.equalsIgnoreCase("euro")) {
 				result = value * Constants.USDEURO;
 			}
 
-		}
-		else if (valuecurrency.equalsIgnoreCase("euro")){
-			if (Acccurrency.equalsIgnoreCase("sgd")){
+		} else if (valuecurrency.equalsIgnoreCase("euro")) {
+			if (Acccurrency.equalsIgnoreCase("sgd")) {
 				result = value * Constants.EUROSGD;
-			}
-			else if (Acccurrency.equalsIgnoreCase("USD")){
+			} else if (Acccurrency.equalsIgnoreCase("USD")) {
 				result = value * Constants.EUROUSD;
 			}
 		}
