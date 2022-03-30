@@ -80,7 +80,19 @@ public class Server {
 			while (true) {
 				DpReceive = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
 				ds.receive(DpReceive); // to receive the msg
-				receiveQueue.add(DpReceive);
+				receiveQueue.add(DpReceive); // add to queue
+				if (!receiveQueue.isEmpty()){
+					System.out.println("Queue is not empty!");
+					DatagramPacket DpQueue = receiveQueue.remove();
+					byte[] queueReceive = DpQueue.getData();
+					// System.out.println(queueReceive);
+					// String decodedMsg = Marshal.byteToString(receive);
+					// System.out.println(decodedMsg);
+					// String[] idcontent = Marshal.decodeForServer(decodedMsg);
+					// System.out.println(idcontent);
+					// String[] message =  Marshal.decodeMessage(idcontent[1]);
+					// System.out.println(message);
+				}
 				String decodedMsg = Marshal.byteToString(receive);
 				String[] idcontent = Marshal.decodeForServer(decodedMsg);
 				String[] message =  Marshal.decodeMessage(idcontent[1]);
@@ -99,7 +111,7 @@ public class Server {
 					a = CreateAccount(accountnum, message[1], message[2], CURRENCY.valueOf(message[3]));
 					accList.add(a);
 					accountnum++;
-					msg = "1|SUCCESS|" + "Account successfully created, your account number is "+ a.getNumber() + "|";
+					msg = "1|SUCCESS|" + "Account successfully created, your account number is "+ Marshal.accPadding(a.getNumber());
 					Connections.sendMsgToClient(msg, DpReceive);
 					break;
 				case 2:
