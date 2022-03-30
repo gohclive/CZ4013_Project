@@ -43,9 +43,9 @@ public class Server {
 
 	public static void initateBankAccounts(ArrayList<Account> accList) {
 		// add initial bank accounts
-		Account alice = new Account(1231534111, "AliceAng", "1234abcd", 50.0, CURRENCY.SGD);
-		Account bob = new Account(1263850000, "BobLim", "abcd1234", 100.0, CURRENCY.SGD);
-		Account charlie = new Account(1297263384, "CharlieTan", "hello123", 50.0, CURRENCY.USD);
+		Account alice = new Account(123153411, "AliceAng", "1234abcd", 50.0, CURRENCY.SGD);
+		Account bob = new Account(126385000, "BobLim", "abcd1234", 100.0, CURRENCY.SGD);
+		Account charlie = new Account(129726338, "CharlieTan", "hello123", 50.0, CURRENCY.USD);
 		accList.add(alice);
 		accList.add(bob);
 		accList.add(charlie);
@@ -63,7 +63,8 @@ public class Server {
 		ArrayList<DatagramPacket> broadcastList = new ArrayList<DatagramPacket>();
 		HashMap<Integer, String> msgCache = null;
 		// hashmap for at-most-once semantics
-		if(Constants.AT_LEAST_ONCE) {
+		Constants.AT_MOST_ONCE = true;
+		if(Constants.AT_MOST_ONCE) {
 			msgCache = new HashMap<Integer, String>();
 		}
 		
@@ -100,7 +101,7 @@ public class Server {
 				if (msgCache!= null) {
 					msgCache.put(Integer.parseInt(idcontent[0]),idcontent[1]);
 				}
-				System.out.println(idcontent[1]);
+				System.out.println("idcontent[1]" + idcontent[1]);
 				switch (Integer.parseInt(message[0])) {
 				case 0:
 					break;
@@ -266,7 +267,9 @@ public class Server {
 				
 				if(!broadcastList.isEmpty()){
 					for (int i = 0; i < broadcastList.size(); i++) {
-						Connections.sendMsgToClient(msg, DpReceive);
+						System.out.println("i" + i);
+						System.out.println("broadcastList.get(i)" + broadcastList.get(i));
+						Connections.sendMsgToClient(msg, broadcastList.get(i));
 					}
 				}
 				
