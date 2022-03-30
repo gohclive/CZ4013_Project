@@ -13,7 +13,7 @@ public class Constants {
 		SGD, USD, HKD, EURO, JPY, GBP
 	}
 	
-	public static final int PACKETLOSTPROB = 0;
+	public static final int PACKETLOSTPROB = 5;
 
 	public static InetAddress serverIP;
 	static {

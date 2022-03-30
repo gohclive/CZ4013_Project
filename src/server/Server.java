@@ -12,6 +12,7 @@ import entity.Account;
 import entity.Constants;
 import entity.Constants.CURRENCY;
 import java.util.Queue;
+import java.util.Random;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -76,17 +77,23 @@ public class Server {
 			DatagramPacket DpReceive = null; // make packet to receive datagrampacket
 			Queue<DatagramPacket> receiveQueue = new LinkedList<>();
 			while (true) {
-				DpReceive = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
-				ds.receive(DpReceive); // to receive the msg
-				receiveQueue.add(DpReceive); // add to queue
-				if (!receiveQueue.isEmpty()) {
-					// System.out.println("Queue is not empty!");
-					DpReceive = receiveQueue.remove();
-					receive = DpReceive.getData();
-					if (receiveQueue.isEmpty()) {
-						// System.out.println("Queue is empty!");
+				if(getRand() >= Constants.PACKETLOSTPROB){
+					DpReceive = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
+					ds.receive(DpReceive); // to receive the msg
+					receiveQueue.add(DpReceive); // add to queue
+					if (!receiveQueue.isEmpty()) {
+						// System.out.println("Queue is not empty!");
+						DpReceive = receiveQueue.remove();
+						receive = DpReceive.getData();
+						if (receiveQueue.isEmpty()) {
+							// System.out.println("Queue is empty!");
+						}
 					}
 				}
+				else{
+					System.out.println("SIMULATED PACKET LOSS, SERVER IGNORE PACKET");
+				}
+				
 				String decodedMsg = Marshal.byteToString(receive);
 				String[] idcontent = Marshal.decodeForServer(decodedMsg);
 				String[] message = Marshal.decodeMessage(idcontent[1]);
@@ -287,6 +294,11 @@ public class Server {
 			i++;
 		}
 		return ret;
+	}
+
+	public static int getRand(){
+		Random r = new Random();
+		return r.nextInt(10);
 	}
 
 }
