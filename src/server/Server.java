@@ -63,7 +63,7 @@ public class Server {
 		HashMap<Integer, String> msgCache = null;
 		HashMap<Integer, String> resultcache = new HashMap<Integer, String>();
 		// hashmap for at-most-once semantics
-		Constants.AT_MOST_ONCE = true;
+		// Constants.AT_MOST_ONCE = true;
 		if (Constants.AT_MOST_ONCE) {
 			msgCache = new HashMap<Integer, String>();
 		}
@@ -78,18 +78,18 @@ public class Server {
 			DatagramPacket DpReceive = null; // make packet to receive datagrampacket
 			DatagramPacket DPdrop = null; // make packet to drop datagrampacket
 			while (true) {
-				int tez = getRand();
-				System.out.println("This is tez: " +tez);
-				if (tez >= Constants.PACKETLOSTPROB) {
+				int failChance = getRand();
+				System.out.println("Dice result : " +failChance+"/10 (below " + Constants.serverRefuseRate +" to drop packet)");
+				if (failChance >= Constants.serverRefuseRate) {
 					DpReceive = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
 					ds.receive(DpReceive); // to receive the msg
 					receiveQueue.add(DpReceive); // add to queue
 					if (!receiveQueue.isEmpty()) {
-						System.out.println("Queue is not empty!");
+						// System.out.println("Queue is not empty!");
 						DpReceive = receiveQueue.remove();
 						receive = DpReceive.getData();
 						if (receiveQueue.isEmpty()) {
-							System.out.println("Queue is empty!");
+							// System.out.println("Queue is empty!");
 						}
 					}
 
@@ -105,8 +105,19 @@ public class Server {
 							String result = resultcache.get(Integer.parseInt(idcontent[0]));
 							msg = result;
 							System.out.println("Sending Following Message to Client: " + msg);
-							Connections.sendMsgToClient(msg, DpReceive);
-							continue;
+							if (Constants.AT_LEAST_ONCE == true){
+								int successToSend = getRand();
+								System.out.println("you rolled this: " + successToSend);
+								if (successToSend >= Constants.serverFailPerformRate) {
+									System.out.println("Success!, time to send message!");
+									Connections.sendMsgToClient(msg, DpReceive);
+									continue;
+								}
+							} else {
+								System.out.println("at least once not activated!");
+								Connections.sendMsgToClient(msg, DpReceive);
+								continue;
+							}
 						} else {
 							msgCache.put(Integer.parseInt(idcontent[0]), idcontent[1]);
 							System.out.println("I Have inputted id content0 " + idcontent[0] + " and idcontent 1 "
@@ -122,12 +133,27 @@ public class Server {
 							// create account
 							a = CreateAccount(accountnum, message[1], message[2], CURRENCY.valueOf(message[3]));
 							accList.add(a);
+							System.out.println("account created: " + Marshal.accPadding(a.getNumber()));
 							accountnum++;
-							msg = "1|SUCCESS|" + "Account successfully created, your account number is "
-									+ Marshal.accPadding(a.getNumber());
+							msg = "1|SUCCESS|" + "Account successfully created, your account number is "+ Marshal.accPadding(a.getNumber());
 							resultcache.put(Integer.parseInt(idcontent[0]), msg);
-							Connections.sendMsgToClient(msg, DpReceive);
-							break;
+							if (Constants.AT_LEAST_ONCE == true){
+								int successToSend = getRand();
+								System.out.println("you rolled this: " + successToSend);
+								if (successToSend >= Constants.serverFailPerformRate) {
+									System.out.println("Success!, time to send message!");
+									Connections.sendMsgToClient(msg, DpReceive);
+									break;
+								} else {
+									System.out.println("Failure!, time to drop message!");
+									break;
+								}
+							} else {
+								System.out.println("at least once not activated!");
+								Connections.sendMsgToClient(msg, DpReceive);
+								break;
+							}
+							
 						case 2:
 							// close account
 							a = checkAccount(accList, message[2]);
@@ -140,16 +166,29 @@ public class Server {
 							} else {
 								if (a.getBalance() >= 1) {
 									msg = "2|ERROR|"
-											+ "Account still have balance left! Please withdraw all amount before closing your account"
-											+ "|";
+											+ "Account still have balance left! Please withdraw all amount before closing your account";
 								} else {
 									accList.remove(a);
-									msg = "2|SUCCESS|" + Marshal.accPadding(a.getNumber()) + " has been closed!|";
+									msg = "2|SUCCESS|" + Marshal.accPadding(a.getNumber()) + " has been closed!";
 								}
 							}
 							resultcache.put(Integer.parseInt(idcontent[0]), msg);
-							Connections.sendMsgToClient(msg, DpReceive);
-							break;
+							if (Constants.AT_LEAST_ONCE == true){
+								int successToSend = getRand();
+								System.out.println("you rolled this: " + successToSend);
+								if (successToSend >= Constants.serverFailPerformRate) {
+									System.out.println("Success!, time to send message!");
+									Connections.sendMsgToClient(msg, DpReceive);
+									break;
+								} else {
+									System.out.println("Failure!, time to drop message!");
+									break;
+								}
+							} else {
+								System.out.println("at least once not activated!");
+								Connections.sendMsgToClient(msg, DpReceive);
+								break;
+							}
 						case 3:
 							// deposit account
 							a = checkAccount(accList, message[2]);
@@ -165,6 +204,7 @@ public class Server {
 								// get the current currency value of the account
 								String currencyOfAccount = a.getCurrency().toString();
 								// convert the currency value to derive the balance input
+
 								double balanceResult = convertCurrency(balance, message[4], currencyOfAccount);
 								int i = accList.indexOf(a);
 								double bal = accList.get(i).getBalance();
@@ -174,9 +214,22 @@ public class Server {
 										+ accList.get(i).getBalance() + "|";
 							}
 							resultcache.put(Integer.parseInt(idcontent[0]), msg);
-							Connections.sendMsgToClient(msg, DpReceive);
-
-							break;
+							if (Constants.AT_LEAST_ONCE == true){
+								int successToSend = getRand();
+								System.out.println("you rolled this: " + successToSend);
+								if (successToSend >= Constants.serverFailPerformRate) {
+									System.out.println("Success!, time to send message!");
+									Connections.sendMsgToClient(msg, DpReceive);
+									break;
+								} else {
+									System.out.println("Failure!, time to drop message!");
+									break;
+								}
+							} else {
+								System.out.println("at least once not activated!");
+								Connections.sendMsgToClient(msg, DpReceive);
+								break;
+							}
 						case 4:
 							// withdraw account
 							a = checkAccount(accList, message[2]);
@@ -205,8 +258,22 @@ public class Server {
 								}
 							}
 							resultcache.put(Integer.parseInt(idcontent[0]), msg);
-							Connections.sendMsgToClient(msg, DpReceive);
-							break;
+							if (Constants.AT_LEAST_ONCE == true){
+								int successToSend = getRand();
+								System.out.println("you rolled this: " + successToSend);
+								if (successToSend >= Constants.serverFailPerformRate) {
+									System.out.println("Success!, time to send message!");
+									Connections.sendMsgToClient(msg, DpReceive);
+									break;
+								} else {
+									System.out.println("Failure!, time to drop message!");
+									break;
+								}
+							} else {
+								System.out.println("at least once not activated!");
+								Connections.sendMsgToClient(msg, DpReceive);
+								break;
+							}
 						case 5:
 							// transfer money
 							Account owner = checkAccount(accList, message[2]);
@@ -219,7 +286,7 @@ public class Server {
 								msg = "5" + Constants.INCORRECTPASSWORD;
 							} else {
 								if (receiver == null) {
-									msg = "5" + "|ERROR|" + "Transfer recipient account not found!|";
+									msg = "5" + "|ERROR|" + "Transfer recipient account not found!";
 								} else {
 									// update owner account
 									int i = accList.indexOf(owner);
@@ -244,15 +311,28 @@ public class Server {
 										msg = "6|SUCCESS|Transfer Successful! Your balance is "
 												+ accList.get(i).getBalance() + "|";
 									} else {
-										msg = "5" + "|ERROR|" + "Not enough Balance for transfer!|";
+										msg = "5" + "|ERROR|" + "Not enough Balance for transfer!";
 									}
 
 								}
 							}
 							resultcache.put(Integer.parseInt(idcontent[0]), msg);
-							Connections.sendMsgToClient(msg, DpReceive);
-
-							break;
+							if (Constants.AT_LEAST_ONCE == true){
+								int successToSend = getRand();
+								System.out.println("you rolled this: " + successToSend);
+								if (successToSend >= Constants.serverFailPerformRate) {
+									System.out.println("Success!, time to send message!");
+									Connections.sendMsgToClient(msg, DpReceive);
+									break;
+								} else {
+									System.out.println("Failure!, time to drop message!");
+									break;
+								}
+							} else {
+								System.out.println("at least once not activated!");
+								Connections.sendMsgToClient(msg, DpReceive);
+								break;
+							}
 						case 6:
 							// check balance
 							a = checkAccount(accList, message[2]);
@@ -268,8 +348,22 @@ public class Server {
 								msg = "2|SUCCESS|" + "Your account " + a.getNumber() + ": balance is "
 										+ accList.get(i).getBalance() + "|";
 							}
-							Connections.sendMsgToClient(msg, DpReceive);
-							break;
+							if (Constants.AT_LEAST_ONCE == true){
+								int successToSend = getRand();
+								System.out.println("you rolled this: " + successToSend);
+								if (successToSend >= Constants.serverFailPerformRate) {
+									System.out.println("Success!, time to send message!");
+									Connections.sendMsgToClient(msg, DpReceive);
+									break;
+								} else {
+									System.out.println("Failure!, time to drop message!");
+									break;
+								}
+							} else {
+								System.out.println("at least once not activated!");
+								Connections.sendMsgToClient(msg, DpReceive);
+								break;
+							}
 						case 7:
 							// add broadcast
 							broadcastList.add(DpReceive);
@@ -305,12 +399,10 @@ public class Server {
 					// Clear the buffer after every message.
 					receive = new byte[65535];
 				} else {
-					System.out.println("This is btm tez: " +tez);
 					DPdrop = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
-					System.out.println("This is 2 btm tez: " +tez);
 					ds.receive(DPdrop); // to receive the msg
-					String decodedMsg = Marshal.byteToString(receive);
-					System.out.println("Decoded Message: " + decodedMsg + " is Received!");
+					// String decodedMsg = Marshal.byteToString(receive);
+					// System.out.println("Decoded Message to be dropped: " + decodedMsg + " is Received!");
 					System.out.println("SIMULATED PACKET LOSS, SERVER IGNORE PACKET");
 					receive = new byte[65535];
 					ds.close();
@@ -343,7 +435,7 @@ public class Server {
 	}
 
 	public static double convertCurrency(double value, String valuecurrency, String Acccurrency) {
-		double result = 0.0;
+		double result = value;
 		if (valuecurrency.equalsIgnoreCase("sgd")) {
 			if (Acccurrency.equalsIgnoreCase("usd")) {
 				result = value * Constants.SGDUSD;

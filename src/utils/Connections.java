@@ -41,7 +41,6 @@ public class Connections {
             int clientPort = clientPacket.getPort();
             DatagramSocket msg = new DatagramSocket();
             byte buf[] = null;
-            // System.out.println("Sending Message To Client: " + messagetosend);
             buf = Marshal.stringToByte(messagetosend,null);
             DatagramPacket dpmsg = new DatagramPacket(buf, buf.length, clientAddr, clientPort);
             msg.send(dpmsg);
@@ -65,35 +64,11 @@ public class Connections {
             result = recvdString;
             //System.out.println(recvdString);
         } catch (SocketTimeoutException e) {
-            //System.out.println("Retrying...");
+            System.out.println("No message Received from Server! Retransmitting data...");
             //e.printStackTrace();
         }
         return result;
     }
-
-    // public static void serverListen(Queue<DatagramPacket> packetReceived) { // prolly need Queue<datagrampacket>
-    //                                                                         // packetreceive = new linkedlist<>();
-    //     try {
-    //         DatagramSocket socketToListen = new DatagramSocket(Constants.serverPortNumber);
-    //         byte[] recvBuffer = new byte[Constants.messageLength];
-    //         do {
-    //             DatagramPacket incomingPacket = new DatagramPacket(recvBuffer, Constants.messageLength);
-    //             socketToListen.receive(incomingPacket);
-    //             packetReceived.add(incomingPacket);
-    //             Constants.clientPort = incomingPacket.getPort();
-    //             // System.out.println("cheated is " + Constants.clientPort);
-    //             String recvmsg = new String(recvBuffer);
-    //             System.out.println("\n" + recvmsg);
-    //         } while (true);
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    // }
-
-    // public static int msgID() {
-    //     return (Constants.messageIdentifer++);
-    // }
-
     public static String clientAddrPort(DatagramSocket clientsocket) {
         int port = clientsocket.getLocalPort();
         InetAddress ip = null;

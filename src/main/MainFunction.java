@@ -40,6 +40,7 @@ public class MainFunction {
 				ip = InetAddress.getByName(serverIp);
 				if (ip.isReachable(5000)) {
 					done = true;
+					System.out.println("Succesfully Connected to "+ ip);
 				} else {
 					System.out.println("invalid IP address!");
 				}
@@ -49,10 +50,10 @@ public class MainFunction {
 		}
 
 		// variable
-		Client c = new Client(ip, Constants.clientPort);
-		ClientInput clientInput = new ClientInput(c);
 		DatagramSocket clientSocket = null;
 		clientSocket = Connections.clientSocketPort(clientSocket);
+		Client c = new Client(ip, clientSocket.getPort());
+		ClientInput clientInput = new ClientInput(c);
 
 		printMenu(0);
 		while (exit == false) {
@@ -68,8 +69,7 @@ public class MainFunction {
 					while (count <= Constants.retry) {
 						try {
 							clientSocket.setSoTimeout(Constants.requestTimeout);
-
-
+							
 							Connections.sendMsgToServer(m, clientSocket, ip);
 
 							//System.out.println("This is no of attempt!: " + count);

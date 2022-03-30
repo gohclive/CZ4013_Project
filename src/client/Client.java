@@ -21,9 +21,13 @@ public class Client {
     }
 
     public int generateMessageId() {
-        Random rnd = new Random();
-        int number = rnd.nextInt(99999);
-        return number;
+        if (Constants.AT_MOST_ONCE == true){
+            return 1000;
+        } else {
+            Random rnd = new Random();
+            int number = rnd.nextInt(99999);
+            return number;
+        }
     }
 
     public Message createRequestMessage() {
@@ -43,8 +47,6 @@ public class Client {
         builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
-        // System.out.println("\ncreating account: ");
-        // message.printData();
         return message;
     }
 
