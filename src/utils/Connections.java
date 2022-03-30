@@ -64,7 +64,7 @@ public class Connections {
             result = recvdString;
             //System.out.println(recvdString);
         } catch (SocketTimeoutException e) {
-            System.out.println("Retrying...");
+            //System.out.println("Retrying...");
             //e.printStackTrace();
         }
         return result;
