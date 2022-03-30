@@ -46,9 +46,9 @@ public class Server {
 
 	public static void initateBankAccounts(ArrayList<Account> accList) {
 		// add initial bank accounts
-		Account alice = new Account(1231534111, "Alice Ang", "1234abcd", 50.0, CURRENCY.SGD);
-		Account bob = new Account(1263850000, "Bob Lim", "abcd1234", 100.0, CURRENCY.SGD);
-		Account charlie = new Account(1297263384, "Charlie Tan", "hello123", 50.0, CURRENCY.USD);
+		Account alice = new Account(1231534111, "AliceAng", "1234abcd", 50.0, CURRENCY.SGD);
+		Account bob = new Account(1263850000, "BobLim", "abcd1234", 100.0, CURRENCY.SGD);
+		Account charlie = new Account(1297263384, "CharlieTan", "hello123", 50.0, CURRENCY.USD);
 		accList.add(alice);
 		accList.add(bob);
 		accList.add(charlie);
@@ -205,12 +205,18 @@ public class Server {
 							//update owner account
 							int i = accList.indexOf(owner);
 							double bal = accList.get(i).getBalance();
-							accList.get(i).setBalance(bal-Double.parseDouble(message[5]));
-							//update receiver account
 							int j = accList.indexOf(receiver);
-							bal = accList.get(j).getBalance();
-							accList.get(j).setBalance(bal+Double.parseDouble(message[5]));
-							msg = "6|SUCCESS|Transfer Successful! Your balance is "+ accList.get(i).getBalance() +"|" ;
+							if(bal >= Double.parseDouble(message[6])) {
+								accList.get(i).setBalance(bal-Double.parseDouble(message[6]));
+								//update receiver account
+								bal = accList.get(j).getBalance();
+								accList.get(j).setBalance(bal+Double.parseDouble(message[6]));
+								msg = "6|SUCCESS|Transfer Successful! Your balance is "+ accList.get(i).getBalance() +"|" ;
+							}
+							else {
+								msg = "5"+ "|ERROR|"+"Not enough Balance for transfer!|";
+							}
+							
 						}
 					}
 					Connections.sendMsgToClient(msg, DpReceive);
