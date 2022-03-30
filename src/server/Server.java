@@ -75,27 +75,24 @@ public class Server {
 			DatagramSocket ds = new DatagramSocket(Constants.serverPortNumber); // make socket and bind it to port
 			byte[] receive = new byte[Constants.messageLength]; // buffer to receive msg
 			Queue<DatagramPacket> receiveQueue = new LinkedList<>();
+			DatagramPacket DpReceive = null; // make packet to receive datagrampacket
+			DatagramPacket DPdrop = null; // make packet to drop datagrampacket
 			while (true) {
-				DatagramPacket DpReceive = null; // make packet to receive datagrampacket
-				if (getRand() >= Constants.PACKETLOSTPROB) {
-					DpReceive = new DatagramPacket(receive, receive.length); // packe to read buffer and length of
-																				// buffer
+				int tez = getRand();
+				System.out.println("This is tez: " +tez);
+				if (tez >= Constants.PACKETLOSTPROB) {
+					DpReceive = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
 					ds.receive(DpReceive); // to receive the msg
 					receiveQueue.add(DpReceive); // add to queue
 					if (!receiveQueue.isEmpty()) {
-						// System.out.println("Queue is not empty!");
+						System.out.println("Queue is not empty!");
 						DpReceive = receiveQueue.remove();
 						receive = DpReceive.getData();
 						if (receiveQueue.isEmpty()) {
-							// System.out.println("Queue is empty!");
+							System.out.println("Queue is empty!");
 						}
 					}
-				} else {
-					System.out.println("SIMULATED PACKET LOSS, SERVER IGNORE PACKET");
 
-				}
-
-				if (DpReceive != null) {
 					String decodedMsg = Marshal.byteToString(receive);
 					String[] idcontent = Marshal.decodeForServer(decodedMsg);
 					String[] message = Marshal.decodeMessage(idcontent[1]);
@@ -111,7 +108,7 @@ public class Server {
 							continue;
 						} else {
 							msgCache.put(Integer.parseInt(idcontent[0]), idcontent[1]);
-							System.out.println("I Have inputted id content 0 " + idcontent[0] + " and idcontent 1 "
+							System.out.println("I Have inputted id content0 " + idcontent[0] + " and idcontent 1 "
 									+ idcontent[1]);
 						}
 
@@ -281,6 +278,16 @@ public class Server {
 
 					// Clear the buffer after every message.
 					receive = new byte[65535];
+				} else {
+					System.out.println("This is btm tez: " +tez);
+					DPdrop = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
+					System.out.println("This is 2 btm tez: " +tez);
+					ds.receive(DPdrop); // to receive the msg
+					System.out.println("SIMULATED PACKET LOSS, SERVER IGNORE PACKET");
+					receive = new byte[65535];
+					ds.close();
+					ds = new DatagramSocket(Constants.serverPortNumber); // make socket and bind it to port
+					
 				}
 			}
 
