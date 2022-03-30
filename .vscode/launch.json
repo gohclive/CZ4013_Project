@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch MainFunction",
+            "request": "launch",
+            "mainClass": "main.MainFunction",
+            "projectName": "CZ4013_CZ4013_Project"
+        },
+        {
+            "type": "java",
+            "name": "Launch TestingGround",
+            "request": "launch",
+            "mainClass": "testing.TestingGround",
+            "projectName": "CZ4013_CZ4013_Project"
+        },
+        {
+            "type": "java",
             "name": "Launch Server",
             "request": "launch",
             "mainClass": "server.Server",

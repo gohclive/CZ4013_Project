@@ -49,6 +49,11 @@ public class Connections {
         }
     }
 
+    public static String connectedHost(DatagramPacket client){
+        String connectedHost = client.getAddress().getHostAddress();
+        return connectedHost;
+    }
+
     public static String clientToReceive(DatagramSocket clientSocket) throws IOException {
         String result = null;
         try {
@@ -112,5 +117,6 @@ public class Connections {
         return socket;
     }
 
+    
 
 }
