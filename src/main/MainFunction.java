@@ -64,15 +64,10 @@ public class MainFunction {
 					while(count <= Constants.retry){
 						try {
 							Connections.sendMsgToServer(m, clientSocket, ip);
-<<<<<<< HEAD
-							res = Connections.clientToReceive(clientSocket);
-							if(res != null){
-=======
 							clientSocket.setSoTimeout(Constants.requestTimeout);
 							if ((res = Connections.clientToReceive(clientSocket)) != null){ 
 								System.out.println(res);
 								count=0;
->>>>>>> 620e0034c7e5e7bd84c1822cb4407330d91525e5
 								break;
 							}
 						} catch (SocketException e) {
@@ -85,18 +80,10 @@ public class MainFunction {
 					if (res == null) {
 						System.out.println("unable to perform task, try again later");
 					}
-<<<<<<< HEAD
-					
-					String[] result = res.split("\\|");
-					System.out.println(result[2]);
-					
-					
-=======
 					else{
 						String[] result = res.split("\\|");
 						System.out.println(result[2]);
 					}
->>>>>>> 620e0034c7e5e7bd84c1822cb4407330d91525e5
 					break;
 				case 2:
 					m = clientInput.closeExistingAccount();
