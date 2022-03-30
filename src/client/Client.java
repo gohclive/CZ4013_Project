@@ -4,34 +4,29 @@ import entity.Message;
 import entity.Constants.CURRENCY;
 import main.MainFunction;
 import java.net.InetAddress;
+import java.util.UUID;
+
 import entity.Account;
 import entity.Constants;
 
 public class Client {
 	private InetAddress serverIPadd;
 	private int portNumber;
-	private int MessageId = 0;
 	private String breaker = "|";
 	
 	public Client(InetAddress serverIPadd, int portNumber) {
 		this.serverIPadd = serverIPadd;
 		this.portNumber = portNumber;
 	}
-	
-	
-	public int getMessageId() {
-		upMessageId();
-		return MessageId-1;
-	}
 
+    public int generateMessageId(){
+       //TODO
 
-	public void upMessageId() {
-		MessageId ++;
-	}
-
+       return 1;
+    }
 
 	public Message createRequestMessage(){
-		return new Message(getMessageId(), null);
+		return new Message(generateMessageId(), null);
 	}
 
 
