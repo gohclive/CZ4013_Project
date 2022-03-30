@@ -64,10 +64,15 @@ public class MainFunction {
 			switch (userInput) {
 				case 1:
 					m = clientInput.openNewAccount();
+
 					while (count <= Constants.retry) {
 						try {
-							Connections.sendMsgToServer(m, clientSocket, ip);
 							clientSocket.setSoTimeout(Constants.requestTimeout);
+
+
+							Connections.sendMsgToServer(m, clientSocket, ip);
+
+							//System.out.println("This is no of attempt!: " + count);
 							if ((res = Connections.clientToReceive(clientSocket)) != null) {
 								count = 0;
 								break;

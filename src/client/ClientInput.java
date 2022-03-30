@@ -63,7 +63,7 @@ public class ClientInput
 
 	public Message openNewAccount() {
 		getGeneralUserInput(1);
-		System.out.printf("Name: " + userName + " Password: " + userPassword + " Currency Type: " + userCurrencyType);
+		//System.out.printf("Name: " + userName + " Password: " + userPassword + " Currency Type: " + userCurrencyType);
 		Message msg = client.createAccount(userName, userPassword, selectedCurrency);
 		return msg;
 	}

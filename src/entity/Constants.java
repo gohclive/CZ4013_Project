@@ -26,7 +26,7 @@ public class Constants {
 	// too much buffer size = slow and high chance cache miss
 	public static final int serverPortNumber = 6666;
 	public static final int messageLength = 512;
-	public static final int requestTimeout = 200; // millisecond
+	public static final int requestTimeout = 15000; // millisecond
 	public static final int retry = 3;
 	public static final String delimiter = "|";
 	public static int clientPort = 122;

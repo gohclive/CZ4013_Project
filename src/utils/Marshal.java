@@ -11,10 +11,6 @@ public class Marshal {
     // function),
     // need make for single variable and structure argument
     public static byte[] stringToByte(String toConvert, Integer rand) {
-        if(rand != null){
-            String msgID = String.valueOf(rand) + ":"; 
-            toConvert = msgID + toConvert;
-        }
         byte[] converting = toConvert.getBytes(Constants.commonCharset);
         return converting;
     }
@@ -24,29 +20,13 @@ public class Marshal {
         return converting;
     }
 
-    public static byte[] intToByte(int toConvert) {
-        byte[] converting = ByteBuffer.allocate(4).putInt(toConvert).array();
-        return converting;
-    }
-
-    public static int bytetoInt(byte[] toConvert) {
-        int converting = ByteBuffer.wrap(toConvert).getInt();
-        return converting;
-    }
-
     public static String[] decodeMessage(String clientInput){
         String[] token = clientInput.split("\\|");
-        // for (int i=0;i<=clientInput.length();i++){
-        //     System.out.println(token[i]);
-        // }
         return token;
     }
 
     public static String[] decodeForServer(String clientInput){
         String[] token = clientInput.split(":");
-        // for (int i=0;i<=clientInput.length();i++){
-        //     System.out.println(token[i]);
-        // }
         return token;
     }
 

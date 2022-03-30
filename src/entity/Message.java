@@ -26,13 +26,17 @@ public class Message {
 	}
 
 	public String MessageToString(){
+		if (messageContent.contains(":") == true){
+			return messageContent;
+		} else {
 		StringBuilder builder = new StringBuilder();
         builder.append(messageID);
 		builder.append(":");
 		builder.append(messageContent);
 		String resMessage = builder.toString();
 		setContent(resMessage);
-		return resMessage;
+		return resMessage;}
+		
 	}
 
 	public static Message replyMessage() {
@@ -41,6 +45,12 @@ public class Message {
 	}
 
 	public void printData(){
-		System.out.println("Request Message: " + messageID + messageContent);
+		System.out.println("Request Message: " + messageID +":"+ messageContent);
+	}
+	public void printIDOnly(){
+		System.out.println("MessageID: " + messageID);
+	}
+	public void printDataOnly(){
+		System.out.println("DataOnly: "+ messageContent);
 	}
 }

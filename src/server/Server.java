@@ -94,6 +94,7 @@ public class Server {
 					}
 
 					String decodedMsg = Marshal.byteToString(receive);
+					System.out.println("Decoded Message: " + decodedMsg + " is Received!");
 					String[] idcontent = Marshal.decodeForServer(decodedMsg);
 					String[] message = Marshal.decodeMessage(idcontent[1]);
 					String msg = "";
@@ -308,6 +309,8 @@ public class Server {
 					DPdrop = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
 					System.out.println("This is 2 btm tez: " +tez);
 					ds.receive(DPdrop); // to receive the msg
+					String decodedMsg = Marshal.byteToString(receive);
+					System.out.println("Decoded Message: " + decodedMsg + " is Received!");
 					System.out.println("SIMULATED PACKET LOSS, SERVER IGNORE PACKET");
 					receive = new byte[65535];
 					ds.close();
