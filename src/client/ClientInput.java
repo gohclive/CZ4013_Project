@@ -172,20 +172,18 @@ public class ClientInput
 	}
 
 	// monitor updates for a time period
-	public void monitorUpdates() {
+	public Message monitorUpdates() {
 		System.out.println("--------Monitor Updates--------\n");
 		System.out.println("Please enter the monitor interval time: ");
 		int monitorIntervalTime = GetUserInput.userInputInt();
 		System.out.println("Monitor Interval Time: " + monitorIntervalTime);
-		client.monitorUpdates(monitorIntervalTime);
+		Message m =client.monitorUpdates(monitorIntervalTime);
+		return m;
+	}
 
-		// get the system time in nano seconds
-		long monitorStartTime = System.nanoTime();
-		// while the updates are within the period of time
-		while (((System.nanoTime() - monitorStartTime) / 1e9) <= monitorIntervalTime) {
-			// get the updates from server
-		}
-		System.out.println("Monitoring Period ended...");
+	public Message endMonitorUpdates() {
+		Message m = client.endMonitorUpdates();
+		return m;
 	}
 
 	// transfer balance to another account

@@ -115,7 +115,7 @@ public class Client {
         return message;
     }
 
-    public void monitorUpdates(int interval){
+    public Message monitorUpdates(int interval){
         Message message = createRequestMessage();
         //to send message 
         StringBuilder builder = new StringBuilder();
@@ -125,7 +125,18 @@ public class Client {
         builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
+        return message;
+    }
 
+    public Message endMonitorUpdates(){
+        Message message = createRequestMessage();
+        //to send message 
+        StringBuilder builder = new StringBuilder();
+        builder.append(8);
+        builder.append(breaker);
+        String messageString = builder.toString();
+        message.setContent(messageString);
+        return message;
     }
 
     public Message transferMoney(String userName, int userAccount, String userPassword, CURRENCY selectedCurrency, int recipientAcc, double transAmount){

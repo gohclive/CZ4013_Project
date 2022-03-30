@@ -14,6 +14,7 @@ import client.*;
 import entity.Constants;
 import entity.Message;
 import utils.Connections;
+import utils.Marshal;
 
 public class MainFunction {
 	private boolean exit = false;
@@ -134,7 +135,16 @@ public class MainFunction {
 					}
 					break;
 				case 4:
-					clientInput.monitorUpdates();
+					m = clientInput.monitorUpdates();
+					Connections.sendMsgToServer(m, clientSocket, ip);
+					double time =  Double.parseDouble(Marshal.decodeMessage(m.getContent())[1]);
+					long MonitorStartTime = System.nanoTime();
+					while((System.nanoTime() - MonitorStartTime) / 1e9 <= time){
+						Connections.clientToReceive(clientSocket);
+					}
+					m = clientInput.endMonitorUpdates();
+					Connections.sendMsgToServer(m, clientSocket, ip);
+					System.out.println("Monitoring period ended...");
 					
 					break;
 				case 5:
