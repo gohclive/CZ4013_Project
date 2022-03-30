@@ -60,8 +60,9 @@ public class Server {
 		ArrayList<Account> accList = new ArrayList<Account>();
 		ArrayList<DatagramPacket> broadcastList = new ArrayList<DatagramPacket>();
 		HashMap<Integer, String> msgCache = null;
+		HashMap<Integer, String> resultcache = new HashMap<Integer, String>();
 		// hashmap for at-most-once semantics
-		Constants.AT_MOST_ONCE = false;
+		Constants.AT_MOST_ONCE = true;
 		if (Constants.AT_MOST_ONCE) {
 			msgCache = new HashMap<Integer, String>();
 		}
@@ -79,27 +80,32 @@ public class Server {
 				ds.receive(DpReceive); // to receive the msg
 				receiveQueue.add(DpReceive); // add to queue
 				if (!receiveQueue.isEmpty()) {
-					System.out.println("Queue is not empty!");
+					// System.out.println("Queue is not empty!");
 					DpReceive = receiveQueue.remove();
 					receive = DpReceive.getData();
-					// System.out.println(queueReceive);
-					// String decodedMsg = Marshal.byteToString(receive);
-					// System.out.println(decodedMsg);
-					// String[] idcontent = Marshal.decodeForServer(decodedMsg);
-					// System.out.println(idcontent);
-					// String[] message = Marshal.decodeMessage(idcontent[1]);
-					// System.out.println(message);
+					if (receiveQueue.isEmpty()) {
+						// System.out.println("Queue is empty!");
+					}
 				}
 				String decodedMsg = Marshal.byteToString(receive);
 				String[] idcontent = Marshal.decodeForServer(decodedMsg);
 				String[] message = Marshal.decodeMessage(idcontent[1]);
-
 				String msg = "";
 				Account a = null;
 				if (msgCache != null) {
-					msgCache.put(Integer.parseInt(idcontent[0]), idcontent[1]);
+					if (msgCache.containsKey(Integer.parseInt(idcontent[0]))) {
+						System.out.println("Duplicated Message ID: " + idcontent[0] + " is Received!");
+						String result = resultcache.get(Integer.parseInt(idcontent[0]));
+						msg = result;
+						System.out.println("Sending Following Message to Client: " + msg);
+						Connections.sendMsgToClient(msg, DpReceive);
+						continue;
+					} else {
+						msgCache.put(Integer.parseInt(idcontent[0]), idcontent[1]);
+						System.out.println("I Have inputted id content 0 " + idcontent[0] + " and idcontent 1 " + idcontent[1]);
+					}
+					
 				}
-				System.out.println("idcontent[1]" + "" + idcontent[1]);
 				switch (Integer.parseInt(message[0])) {
 					case 0:
 						break;
@@ -110,6 +116,7 @@ public class Server {
 						accountnum++;
 						msg = "1|SUCCESS|" + "Account successfully created, your account number is "
 								+ Marshal.accPadding(a.getNumber());
+						resultcache.put(Integer.parseInt(idcontent[0]), msg);
 						Connections.sendMsgToClient(msg, DpReceive);
 						break;
 					case 2:
@@ -128,9 +135,10 @@ public class Server {
 										+ "|";
 							} else {
 								accList.remove(a);
-								msg = "2|SUCCESS|" + a.getNumber() + " has been closed!|";
+								msg = "2|SUCCESS|" + Marshal.accPadding(a.getNumber()) + " has been closed!|";
 							}
 						}
+						resultcache.put(Integer.parseInt(idcontent[0]), msg);
 						Connections.sendMsgToClient(msg, DpReceive);
 						break;
 					case 3:
@@ -149,6 +157,7 @@ public class Server {
 							accList.get(i).setBalance(bal + Double.parseDouble(message[5]));
 							msg = "3|SUCCESS|" + a.getNumber() + " balance is " + accList.get(i).getBalance() + "|";
 						}
+						resultcache.put(Integer.parseInt(idcontent[0]), msg);
 						Connections.sendMsgToClient(msg, DpReceive);
 
 						break;
@@ -172,6 +181,7 @@ public class Server {
 										+ accList.get(i).getBalance() + "|";
 							}
 						}
+						resultcache.put(Integer.parseInt(idcontent[0]), msg);
 						Connections.sendMsgToClient(msg, DpReceive);
 						break;
 					case 5:
@@ -205,6 +215,7 @@ public class Server {
 
 							}
 						}
+						resultcache.put(Integer.parseInt(idcontent[0]), msg);
 						Connections.sendMsgToClient(msg, DpReceive);
 
 						break;

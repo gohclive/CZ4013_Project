@@ -49,6 +49,7 @@ public class Client {
         String messageString = builder.toString();
         System.out.println("\ncreating account: " + messageString + "\n");
         message.setContent(messageString);
+//        message.setMessageID(123);
         return message;
     }
 
