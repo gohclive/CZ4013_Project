@@ -39,4 +39,8 @@ public class Message {
 //		System.out.println("message from server" + messageID + messageContent);
 		 return new Message(messageID, messageContent);
 	}
+
+	public void printData(){
+		System.out.println("Request Message: " + messageID + messageContent);
+	}
 }

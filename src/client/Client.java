@@ -4,33 +4,33 @@ import entity.Message;
 import entity.Constants.CURRENCY;
 import main.MainFunction;
 import java.net.InetAddress;
+import java.util.Random;
 import java.util.UUID;
 
 import entity.Account;
 import entity.Constants;
 
 public class Client {
-	private InetAddress serverIPadd;
-	private int portNumber;
-	private String breaker = "|";
-	
-	public Client(InetAddress serverIPadd, int portNumber) {
-		this.serverIPadd = serverIPadd;
-		this.portNumber = portNumber;
-	}
+    private InetAddress serverIPadd;
+    private int portNumber;
+    private String breaker = "|";
 
-    public int generateMessageId(){
-       //TODO
-
-       return 1;
+    public Client(InetAddress serverIPadd, int portNumber) {
+        this.serverIPadd = serverIPadd;
+        this.portNumber = portNumber;
     }
 
-	public Message createRequestMessage(){
-		return new Message(generateMessageId(), null);
-	}
+    public int generateMessageId() {
+        Random rnd = new Random();
+        int number = rnd.nextInt(99999);
+        return number;
+    }
 
+    public Message createRequestMessage() {
+        return new Message(generateMessageId(), null);
+    }
 
-	public Message createAccount(String userName, String userPassword, CURRENCY selectedCurrency){
+    public Message createAccount(String userName, String userPassword, CURRENCY selectedCurrency) {
         Message message = createRequestMessage();
         StringBuilder builder = new StringBuilder();
         builder.append(1);
@@ -42,13 +42,13 @@ public class Client {
         builder.append(selectedCurrency);
         builder.append(breaker);
         String messageString = builder.toString();
-        System.out.println("\ncreating account: " + messageString + "\n");
         message.setContent(messageString);
-//        message.setMessageID(123);
+        // System.out.println("\ncreating account: ");
+        // message.printData();
         return message;
     }
 
-    public Message closeAccount(String userName, int userAccount, String userPassword){
+    public Message closeAccount(String userName, int userAccount, String userPassword) {
         Message message = createRequestMessage();
         StringBuilder builder = new StringBuilder();
         builder.append(2);
@@ -61,14 +61,14 @@ public class Client {
         builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
-        
-        
+
         return message;
     }
-    
-    public Message depositMoney(String userName, int userAccount, String userPassword, CURRENCY selectedCurrency, double depositSum) {
+
+    public Message depositMoney(String userName, int userAccount, String userPassword, CURRENCY selectedCurrency,
+            double depositSum) {
         Message message = createRequestMessage();
-        //to send message 
+        // to send message
         StringBuilder builder = new StringBuilder();
         builder.append(3);
         builder.append(breaker);
@@ -84,13 +84,14 @@ public class Client {
         builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
-        
+
         return message;
     }
-    
-    public Message withdrawMoney(String userName, int userAccount, String userPassword, CURRENCY selectedCurrency, double withdrawSum) {
+
+    public Message withdrawMoney(String userName, int userAccount, String userPassword, CURRENCY selectedCurrency,
+            double withdrawSum) {
         Message message = createRequestMessage();
-        //to send message 
+        // to send message
         StringBuilder builder = new StringBuilder();
         builder.append(4);
         builder.append(breaker);
@@ -106,14 +107,14 @@ public class Client {
         builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
-        
-        //after receiving reply from server 
+
+        // after receiving reply from server
         return message;
     }
 
-    public Message monitorUpdates(double interval){
+    public Message monitorUpdates(double interval) {
         Message message = createRequestMessage();
-        //to send message 
+        // to send message
         StringBuilder builder = new StringBuilder();
         builder.append(7);
         builder.append(breaker);
@@ -124,9 +125,9 @@ public class Client {
         return message;
     }
 
-    public Message endMonitorUpdates(){
+    public Message endMonitorUpdates() {
         Message message = createRequestMessage();
-        //to send message 
+        // to send message
         StringBuilder builder = new StringBuilder();
         builder.append(8);
         builder.append(breaker);
@@ -135,10 +136,11 @@ public class Client {
         return message;
     }
 
-    public Message transferMoney(String userName, int userAccount, String userPassword, CURRENCY selectedCurrency, int recipientAcc, double transAmount){
+    public Message transferMoney(String userName, int userAccount, String userPassword, CURRENCY selectedCurrency,
+            int recipientAcc, double transAmount) {
         Message message = createRequestMessage();
-        
-        //to send message 
+
+        // to send message
         StringBuilder builder = new StringBuilder();
         builder.append(5);
         builder.append(breaker);
@@ -148,7 +150,7 @@ public class Client {
         builder.append(breaker);
         builder.append(userPassword);
         builder.append(breaker);
-        builder.append(selectedCurrency);      
+        builder.append(selectedCurrency);
         builder.append(breaker);
         builder.append(recipientAcc);
         builder.append(breaker);
@@ -156,13 +158,13 @@ public class Client {
         builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
-        
+
         return message;
     }
-    
-    public Message checkBalanceOfAccount(String userName, int userAccount, String userPassword){
+
+    public Message checkBalanceOfAccount(String userName, int userAccount, String userPassword) {
         Message message = createRequestMessage();
-        //to send message 
+        // to send message
         StringBuilder builder = new StringBuilder();
         builder.append(6);
         builder.append(breaker);
@@ -174,9 +176,8 @@ public class Client {
         builder.append(breaker);
         String messageString = builder.toString();
         message.setContent(messageString);
-        
-       return message;
+
+        return message;
     }
-    
-    
+
 }
