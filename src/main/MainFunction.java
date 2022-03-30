@@ -28,51 +28,48 @@ public class MainFunction {
 	}
 
 	public void mainMenu() throws IOException {
-		
-		Scanner sc =  new Scanner(System.in);
+
+		Scanner sc = new Scanner(System.in);
 		InetAddress ip = null;
 		boolean done = false;
-		while(!done){
+		while (!done) {
 			try {
 				System.out.println("Please Enter Server Ip Address: ");
 				String serverIp = sc.next();
 				System.out.println("Sending Ping Request to " + serverIp);
 				ip = InetAddress.getByName(serverIp);
-				if(ip.isReachable(5000)){
+				if (ip.isReachable(5000)) {
 					done = true;
-				}
-				else{
+				} else {
 					System.out.println("invalid IP address!");
 				}
 			} catch (IOException e) {
 				System.out.println("invalid IP address!");
 			}
 		}
-		
 
-		//variable
+		// variable
 		Client c = new Client(ip, Constants.clientPort);
 		ClientInput clientInput = new ClientInput(c);
 		DatagramSocket clientSocket = null;
 		clientSocket = Connections.clientSocketPort(clientSocket);
 
-		
 		printMenu(0);
 		while (exit == false) {
 			int userInput = GetUserInput.userInputInt();
 			Message m = null;
-			int count =0;
+			int count = 0;
 			String res = null;
 			String[] result = null;
 			switch (userInput) {
 				case 1:
 					m = clientInput.openNewAccount();
-					while(count <= Constants.retry){
+					while (count <= Constants.retry) {
 						try {
 							Connections.sendMsgToServer(m, clientSocket, ip);
 							clientSocket.setSoTimeout(Constants.requestTimeout);
-							if ((res = Connections.clientToReceive(clientSocket)) != null){
-								count=0;
+							if ((res = Connections.clientToReceive(clientSocket)) != null) {
+								count = 0;
 								break;
 							}
 						} catch (SocketException e) {
@@ -84,20 +81,19 @@ public class MainFunction {
 
 					if (res == null) {
 						System.out.println("unable to perform task, try again later");
-					}
-					else{
-						String[] result = res.split("\\|");
+					} else {
+						result = res.split("\\|");
 						System.out.println(result[2]);
 					}
 					break;
 				case 2:
 					m = clientInput.closeExistingAccount();
-					while(count <= Constants.retry){
+					while (count <= Constants.retry) {
 						try {
 							Connections.sendMsgToServer(m, clientSocket, ip);
 							clientSocket.setSoTimeout(Constants.requestTimeout);
-							if ((res = Connections.clientToReceive(clientSocket)) != null){ 
-								count=0;
+							if ((res = Connections.clientToReceive(clientSocket)) != null) {
+								count = 0;
 								break;
 							}
 						} catch (SocketException e) {
@@ -106,22 +102,21 @@ public class MainFunction {
 						}
 						count++;
 					}
-					if(res == null){
+					if (res == null) {
 						System.out.println("unable to perform task, try again later");
-					}
-					else{
-						String[] result = res.split("\\|");
+					} else {
+						result = res.split("\\|");
 						System.out.println(result[2]);
 					}
 					break;
 				case 3:
 					m = clientInput.depositOrWithdraw();
-					while(count <= Constants.retry){
+					while (count <= Constants.retry) {
 						try {
 							Connections.sendMsgToServer(m, clientSocket, ip);
 							clientSocket.setSoTimeout(Constants.requestTimeout);
-							if ((res = Connections.clientToReceive(clientSocket)) != null){ 
-								count=0;
+							if ((res = Connections.clientToReceive(clientSocket)) != null) {
+								count = 0;
 								break;
 							}
 						} catch (SocketException e) {
@@ -130,64 +125,68 @@ public class MainFunction {
 						}
 						count++;
 					}
-					if(res == null){
+					if (res == null) {
 						System.out.println("unable to perform task, try again later");
-					}
-					else{
-						String[] result = res.split("\\|");
+					} else {
+						result = res.split("\\|");
 						System.out.println(result[2]);
 					}
 					break;
 				case 4:
 					m = clientInput.monitorUpdates();
 					Connections.sendMsgToServer(m, clientSocket, ip);
-					double time =  Double.parseDouble(Marshal.decodeMessage(m.getContent())[1]);
+					double time = Double.parseDouble(Marshal.decodeMessage(m.getContent())[1]);
 					long startTime = System.currentTimeMillis();
-					
-					while((System.currentTimeMillis() - startTime) <= time * 1000){
-						try{
-							res = Connections.clientToReceive(clientSocket);
+
+					while ((System.currentTimeMillis() - startTime) <= time * 1000) {
+						try {
 							clientSocket.setSoTimeout(1000);
-							result = res.split("\\|");
-							if(result != null && result[1].equalsIgnoreCase("success")){
-								DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-								   LocalDateTime now = LocalDateTime.now();  
-								switch (Integer.parseInt( result[0])) {
-									case 1:
-										System.out.println(dtf.format(now) + ": New account is created.");
-										break;
-									case 2:
-										System.out.println(dtf.format(now) + ": Account has been closed.");
-									case 3:
-										System.out.println(dtf.format(now) + ": An account has made a deposit");
-									case 4:
-										System.out.println(dtf.format(now) + ": An Account has made a withdrawal");
-									case 5:
-										System.out.println(dtf.format(now) + ": An Account has made an transfer");
-									case 6:
-										System.out.println(dtf.format(now) + ": An Account balance has been check");
-									default:
-										break;
+							res = Connections.clientToReceive(clientSocket);
+							if (res != null) {
+								result = res.split("\\|");
+								System.out.println(result.length);
+							}
+							if (result.length > 1) {
+								if (result[1].equalsIgnoreCase("success")) {
+									DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+									LocalDateTime now = LocalDateTime.now();
+									switch (Integer.parseInt(result[0])) {
+										case 1:
+											System.out.println(dtf.format(now) + ": New account is created.");
+											break;
+										case 2:
+											System.out.println(dtf.format(now) + ": Account has been closed.");
+										case 3:
+											System.out.println(dtf.format(now) + ": An account has made a deposit");
+										case 4:
+											System.out.println(dtf.format(now) + ": An Account has made a withdrawal");
+										case 5:
+											System.out.println(dtf.format(now) + ": An Account has made an transfer");
+										case 6:
+											System.out.println(dtf.format(now) + ": An Account balance has been check");
+										default:
+											break;
+									}
 								}
 							}
+						} catch (SocketException e) {
+							// do nothing
 						}
-						catch(SocketException e){
-							//do nothing
-						}
+						res = null;
 					}
 					m = clientInput.endMonitorUpdates();
 					Connections.sendMsgToServer(m, clientSocket, ip);
 					System.out.println("Monitoring period ended...");
-					
+
 					break;
 				case 5:
 					m = clientInput.transferMoney();
-					while(count <= Constants.retry){
+					while (count <= Constants.retry) {
 						try {
 							Connections.sendMsgToServer(m, clientSocket, ip);
 							clientSocket.setSoTimeout(Constants.requestTimeout);
-							if ((res = Connections.clientToReceive(clientSocket)) != null){ 
-								count=0;
+							if ((res = Connections.clientToReceive(clientSocket)) != null) {
+								count = 0;
 								break;
 							}
 						} catch (SocketException e) {
@@ -196,22 +195,21 @@ public class MainFunction {
 						}
 						count++;
 					}
-					if(res == null){
+					if (res == null) {
 						System.out.println("unable to perform task, try again later");
-					}
-					else{
+					} else {
 						result = res.split("\\|");
 						System.out.println(result[2]);
 					}
 					break;
 				case 6:
 					m = clientInput.checkBalance();
-					while(count <= Constants.retry){
+					while (count <= Constants.retry) {
 						try {
 							Connections.sendMsgToServer(m, clientSocket, ip);
 							clientSocket.setSoTimeout(Constants.requestTimeout);
-							if ((res = Connections.clientToReceive(clientSocket)) != null){
-								count=0;
+							if ((res = Connections.clientToReceive(clientSocket)) != null) {
+								count = 0;
 								break;
 							}
 						} catch (SocketException e) {
@@ -220,10 +218,9 @@ public class MainFunction {
 						}
 						count++;
 					}
-					if(res == null){
+					if (res == null) {
 						System.out.println("unable to perform task, try again later");
-					}
-					else{
+					} else {
 						result = res.split("\\|");
 						System.out.println(result[2]);
 					}
