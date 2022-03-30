@@ -175,8 +175,9 @@ public class ClientInput
 	public Message monitorUpdates() {
 		System.out.println("--------Monitor Updates--------\n");
 		System.out.println("Please enter the monitor interval time: ");
-		int monitorIntervalTime = GetUserInput.userInputInt();
-		System.out.println("Monitor Interval Time: " + monitorIntervalTime);
+		double monitorIntervalTime = GetUserInput.userInputDouble();
+		System.out.println("Monitor Interval Time: " + monitorIntervalTime + " seconds");
+		System.out.println("--------Starting monitoring--------");
 		Message m =client.monitorUpdates(monitorIntervalTime);
 		return m;
 	}

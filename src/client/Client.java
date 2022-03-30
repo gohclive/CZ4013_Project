@@ -115,7 +115,7 @@ public class Client {
         return message;
     }
 
-    public Message monitorUpdates(int interval){
+    public Message monitorUpdates(double interval){
         Message message = createRequestMessage();
         //to send message 
         StringBuilder builder = new StringBuilder();

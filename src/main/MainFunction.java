@@ -1,12 +1,15 @@
 package main;
 
 import java.io.IOException;
+import java.lang.invoke.SwitchPoint;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.sql.Connection;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -138,9 +141,38 @@ public class MainFunction {
 					m = clientInput.monitorUpdates();
 					Connections.sendMsgToServer(m, clientSocket, ip);
 					double time =  Double.parseDouble(Marshal.decodeMessage(m.getContent())[1]);
-					long MonitorStartTime = System.nanoTime();
-					while((System.nanoTime() - MonitorStartTime) / 1e9 <= time){
-						Connections.clientToReceive(clientSocket);
+					long startTime = System.currentTimeMillis();
+					String[] result = null;
+					while((System.currentTimeMillis() - startTime) <= time * 1000){
+						try{
+							res = Connections.clientToReceive(clientSocket);
+							clientSocket.setSoTimeout(1000);
+							result = res.split("\\|");
+							if(result != null && result[1].equalsIgnoreCase("success")){
+								DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+								   LocalDateTime now = LocalDateTime.now();  
+								switch (Integer.parseInt( result[0])) {
+									case 1:
+										System.out.println(dtf.format(now) + ": New account is created.");
+										break;
+									case 2:
+										System.out.println(dtf.format(now) + ": Account has been closed.");
+									case 3:
+										System.out.println(dtf.format(now) + ": An account has made a deposit");
+									case 4:
+										System.out.println(dtf.format(now) + ": An Account has made a withdrawal");
+									case 5:
+										System.out.println(dtf.format(now) + ": An Account has made an transfer");
+									case 6:
+										System.out.println(dtf.format(now) + ": An Account balance has been check");
+									default:
+										break;
+								}
+							}
+						}
+						catch(SocketException e){
+							//do nothing
+						}
 					}
 					m = clientInput.endMonitorUpdates();
 					Connections.sendMsgToServer(m, clientSocket, ip);
