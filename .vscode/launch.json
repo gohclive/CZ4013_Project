@@ -9,14 +9,14 @@
             "name": "Launch MainFunction",
             "request": "launch",
             "mainClass": "main.MainFunction",
-            "projectName": "CZ4013_CZ4013_Project"
+            "projectName": "CZ4013_Project"
         },
         {
             "type": "java",
-            "name": "Launch TestingGround",
+            "name": "Launch Server",
             "request": "launch",
-            "mainClass": "testing.TestingGround",
-            "projectName": "CZ4013_CZ4013_Project"
+            "mainClass": "server.Server",
+            "projectName": "CZ4013_Project"
         },
         {
             "type": "java",
