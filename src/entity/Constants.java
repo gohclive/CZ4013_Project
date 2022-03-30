@@ -10,7 +10,7 @@ import utils.Marshal;
 public class Constants {
 
 	public enum CURRENCY {
-		SGD, USD, HKD, EURO, JPY, GBP
+		SGD, USD, EURO
 	}
 	
 	public static final int PACKETLOSTPROB = 5;
@@ -34,6 +34,15 @@ public class Constants {
 	public static int messageIdentifer = 1000;
 	public static boolean AT_LEAST_ONCE = false;
 	public static boolean AT_MOST_ONCE = false;
+
+	//currency conversion value
+	public static final double USDSGD = 1.35;
+	public static final double SGDUSD = 0.74;
+	public static final double USDEURO = 0.90;
+	public static final double EUROUSD = 1.12;
+	public static final double EUROSGD = 1.51;
+	public static final double SGDEURO = 0.66;
+
 	
 	//error messages
 	public static final String ACCOUNTNOTFOUND = "|ERROR|"+ "Account not found!" + "|";

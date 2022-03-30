@@ -307,4 +307,34 @@ public class Server {
 		return r.nextInt(10);
 	}
 
+	public static double convertCurrency(int value, String valuecurrency, String Acccurrency){
+		double result = 0.0;
+		if (valuecurrency.equalsIgnoreCase("sgd")){
+			if (Acccurrency.equalsIgnoreCase("usd")){
+				result = value * Constants.SGDUSD;
+			}
+			else if (Acccurrency.equalsIgnoreCase("euro")){
+				result = value * Constants.SGDEURO;
+			}
+		}
+		else if (valuecurrency.equalsIgnoreCase("usd")){
+			if (Acccurrency.equalsIgnoreCase("sgd")){
+				result = value * Constants.USDSGD;
+			}
+			else if (Acccurrency.equalsIgnoreCase("euro")){
+				result = value * Constants.USDEURO;
+			}
+
+		}
+		else if (valuecurrency.equalsIgnoreCase("euro")){
+			if (Acccurrency.equalsIgnoreCase("sgd")){
+				result = value * Constants.EUROSGD;
+			}
+			else if (Acccurrency.equalsIgnoreCase("USD")){
+				result = value * Constants.EUROUSD;
+			}
+		}
+		return result;
+	}
+
 }
