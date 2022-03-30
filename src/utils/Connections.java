@@ -50,7 +50,7 @@ public class Connections {
     }
 
     public static String connectedHost(DatagramPacket client){
-        String connectedHost = client.getAddress().getHostAddress();
+        String connectedHost = (client.getSocketAddress()).toString();
         return connectedHost;
     }
 
