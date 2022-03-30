@@ -93,11 +93,12 @@ public class ClientInput
 		}
 	}
 
-	// 9 digit number int
+	// less than 9 digits number int
 	public void accountNumberCheck(int newAccountNumber) {
 		accountCheck = false;
 		while (accountCheck == false) {
-			if (String.valueOf(userAccount).length() <= 9) {
+			//check if the account number is more than equals to 10 digits 
+			if (String.valueOf(userAccount).length() >= 10) {
 				System.out.println("Please insert a valid account number (<10 digits): ");
 				userAccount = GetUserInput.userInputInt();
 				// how to check for existing account number?

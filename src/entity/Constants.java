@@ -39,7 +39,8 @@ public class Constants {
 	public static final String INCORRECTNAME = "|ERROR|"+ "Account name incorrect!" + "|";
 	public static final String INCORRECTPASSWORD = "|ERROR|"+ "Account password incorrect!" + "|";
 	public static final String INSUFFICIENTBAL ="|ERROR|"+ "Account has insufficent balance!" + "|";
-	
+	public static final String SUCCESSMESSAGE = "Operation is successful!";
+	public static final String ERRORMESSAGE = "Operation is unsuccessful";
 
 	public static void main(String[] args) {
 		System.out.println(serverIP);
