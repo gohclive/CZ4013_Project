@@ -157,14 +157,24 @@ public class MainFunction {
 											break;
 										case 2:
 											System.out.println(dtf.format(now) + ": Account has been closed.");
+											result = null;
+											break;
 										case 3:
 											System.out.println(dtf.format(now) + ": An account has made a deposit");
+											result = null;
+											break;
 										case 4:
 											System.out.println(dtf.format(now) + ": An Account has made a withdrawal");
+											result = null;
+											break;
 										case 5:
 											System.out.println(dtf.format(now) + ": An Account has made an transfer");
+											result = null;
+											break;
 										case 6:
 											System.out.println(dtf.format(now) + ": An Account balance has been check");
+											result = null;
+											break;
 										default:
 											break;
 									}
