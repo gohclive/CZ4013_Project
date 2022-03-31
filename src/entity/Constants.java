@@ -21,7 +21,7 @@ public class Constants {
 	}
 	// too much buffer size = slow and high chance cache miss
 	public static final int serverRefuseRate = 5;
-	public static final int serverFailPerformRate = 5;
+	public static final int serverFailSendRate = 5;
 	public static boolean AT_LEAST_ONCE = true;
 	public static boolean AT_MOST_ONCE = false;
 	// public static final int messageID = 123;
