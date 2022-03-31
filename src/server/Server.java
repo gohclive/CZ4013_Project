@@ -1,24 +1,18 @@
 package server;
-
-import main.MainFunction;
 import utils.Connections;
 import utils.Marshal;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-
 import entity.Account;
 import entity.Constants;
 import entity.Constants.CURRENCY;
 import java.util.Queue;
 import java.util.Random;
-import java.util.ArrayList;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.util.Queue;
 
 public class Server {
 

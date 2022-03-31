@@ -2,22 +2,13 @@ package client;
 
 import entity.Message;
 import entity.Constants.CURRENCY;
-import main.MainFunction;
-import java.net.InetAddress;
 import java.util.Random;
-import java.util.UUID;
-
-import entity.Account;
 import entity.Constants;
 
 public class Client {
-    private InetAddress serverIPadd;
-    private int portNumber;
     private String breaker = "|";
 
-    public Client(InetAddress serverIPadd, int portNumber) {
-        this.serverIPadd = serverIPadd;
-        this.portNumber = portNumber;
+    public Client() {
     }
 
     public int generateMessageId() {

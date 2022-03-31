@@ -4,7 +4,7 @@ public class Message {
 
 	private static int messageID;
 	private static String messageContent;
-	private static String resMessage;
+	
 	public Message(int messageID, String messageContent) {
 		Message.messageID = messageID;
 		Message.messageContent = messageContent;

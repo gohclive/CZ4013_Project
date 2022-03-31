@@ -1,14 +1,7 @@
 package client;
 
-import java.net.InetAddress;
-import java.util.Currency;
-import java.util.Set;
-
-import entity.Account;
 import entity.Message;
-import entity.Constants;
 import entity.Constants.CURRENCY;
-import server.Server;
 
 public class ClientInput
 {
@@ -82,7 +75,6 @@ public class ClientInput
 	public void accountNameCheck(String newAccountName) {
 		accountNameCheck = false;
 		while (accountNameCheck == false) {
-			String regEx = "/^[A-Za-z]+$/";
 			if ((userName != null) && (!userName.equals("")) && (userName.matches("^[a-zA-Z]*$"))) {
 				accountNameCheck = true;
 			} else {
