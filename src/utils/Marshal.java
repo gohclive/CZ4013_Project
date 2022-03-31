@@ -1,9 +1,5 @@
 package utils;
-import java.util.Random;
 import entity.Constants;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class Marshal {
     // java use big endian by default
