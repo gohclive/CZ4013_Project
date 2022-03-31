@@ -12,13 +12,9 @@ public class Client {
     }
 
     public int generateMessageId() {
-        if (Constants.AT_MOST_ONCE == true){
-            return 1000;
-        } else {
             Random rnd = new Random();
             int number = rnd.nextInt(99999);
             return number;
-        }
     }
 
     public Message createRequestMessage() {
