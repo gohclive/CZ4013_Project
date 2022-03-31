@@ -80,7 +80,10 @@ public class Connections {
             String recvdString = Marshal.byteToString(recvbuffer);
             result = recvdString;
             //System.out.println(recvdString);
-        } catch (SocketTimeoutException e) {
+        } catch ( SocketException e) {
+            //e.printStackTrace();
+        }
+        catch (SocketTimeoutException e) {
             System.out.println("No message Received from Server! Retransmitting data...");
             //e.printStackTrace();
         }
