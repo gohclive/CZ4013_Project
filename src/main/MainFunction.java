@@ -64,9 +64,7 @@ public class MainFunction {
 					while (count <= Constants.retry) {
 						try {
 							clientSocket.setSoTimeout(Constants.requestTimeout);
-							
 							Connections.sendMsgToServer(m, clientSocket, ip);
-
 							//System.out.println("This is no of attempt!: " + count);
 							if ((res = Connections.clientToReceive(clientSocket)) != null) {
 								count = 0;
