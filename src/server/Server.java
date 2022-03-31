@@ -73,7 +73,7 @@ public class Server {
 			DatagramPacket DPdrop = null; // make packet to drop datagrampacket
 			while (true) {
 				int failChance = getRand();
-				System.out.println("Dice result : " + failChance + "/10 (below " + Constants.serverRefuseRate
+				System.out.println("Random result : " + failChance + "/10 (below " + Constants.serverRefuseRate
 						+ " to drop packet)");
 				if (failChance >= Constants.serverRefuseRate) {
 					DpReceive = new DatagramPacket(receive, receive.length); // packe to read buffer and length of
@@ -81,16 +81,14 @@ public class Server {
 					ds.receive(DpReceive); // to receive the msg
 					receiveQueue.add(DpReceive); // add to queue
 					if (!receiveQueue.isEmpty()) {
-						// System.out.println("Queue is not empty!");
 						DpReceive = receiveQueue.remove();
 						receive = DpReceive.getData();
 						if (receiveQueue.isEmpty()) {
-							// System.out.println("Queue is empty!");
 						}
 					}
 
 					String decodedMsg = Marshal.byteToString(receive);
-					//System.out.println("Decoded Message: " + decodedMsg + " is Received!");
+					System.out.println("Message received from Client: " + decodedMsg);
 					String[] idcontent = Marshal.decodeForServer(decodedMsg);
 					String[] message = Marshal.decodeMessage(idcontent[1]);
 					String msg = "";
@@ -105,13 +103,11 @@ public class Server {
 							System.out.println("Sending Following Message to Client: " + msg);
 							Connections.sendMsgToClient(msg, DpReceive);
 							duplicated = true;
-
-							// System.out.println("This is a duplicate message! after");
 							if (Constants.AT_LEAST_ONCE == true) {
 								int successToSend = getRand();
-								System.out.println("you rolled this: " + successToSend);
+								System.out.println("Success send rate: " + successToSend + "0%");
 								if (successToSend >= Constants.serverFailSendRate) {
-									System.out.println("Success!, time to send message!");
+									System.out.println("Success!, sending message!");
 									Connections.sendMsgToClient(msg, DpReceive);
 									continue;
 								}
@@ -122,9 +118,6 @@ public class Server {
 							}
 						} else {
 							msgCache.put(Integer.parseInt(idcontent[0]), idcontent[1]);
-							// System.out.println("I Have inputted id content0 " + idcontent[0] + " and
-							// idcontent 1 "
-							// + idcontent[1]);
 							duplicated=false;
 						}
 
@@ -144,14 +137,14 @@ public class Server {
 								resultcache.put(Integer.parseInt(idcontent[0]), msg);
 								if (Constants.AT_LEAST_ONCE) {
 									int successToSend = getRand();
-									System.out.println("you rolled this: " + successToSend);
+									System.out.println("Create Account | Success send rate: " + successToSend + "0%");
 									if (successToSend >= Constants.serverFailSendRate) {
-										System.out.println("Sending Client: " + msg);
-										System.out.println("Success!, sending message!");
+										// System.out.println("Sending Client: " + msg);
+										System.out.println("Create Account | Success!, sending message!");
 										Connections.sendMsgToClient(msg, DpReceive);
 										break;
 									} else {
-										System.out.println("Failure!, dropping message!");
+										System.out.println("Create Account | Failure!, not sending message!");
 										break;
 									}
 								} else {
@@ -182,13 +175,13 @@ public class Server {
 								resultcache.put(Integer.parseInt(idcontent[0]), msg);
 								if (Constants.AT_LEAST_ONCE) {
 									int successToSend = getRand();
-									System.out.println("you rolled this: " + successToSend);
+									System.out.println("Close Account | Success send rate: " + successToSend + "0%");
 									if (successToSend >= Constants.serverFailSendRate) {
-										System.out.println("Success!, time to send message!");
+										System.out.println("Close Account | Success!, Sending message: " + msg);
 										Connections.sendMsgToClient(msg, DpReceive);
 										break;
 									} else {
-										System.out.println("Failure!, time to drop message!");
+										System.out.println("Close Account | Failure!, dropping message!");
 										break;
 									}
 								} else {
@@ -224,13 +217,13 @@ public class Server {
 								resultcache.put(Integer.parseInt(idcontent[0]), msg);
 								if (Constants.AT_LEAST_ONCE == true) {
 									int successToSend = getRand();
-									System.out.println("you rolled this: " + successToSend);
+									System.out.println("Deposit | Success send rate: " + successToSend + "0%");
 									if (successToSend >= Constants.serverFailSendRate) {
-										System.out.println("Success!, time to send message!");
+										System.out.println("Deposit | Success!, Sending message: " + msg);
 										Connections.sendMsgToClient(msg, DpReceive);
 										break;
 									} else {
-										System.out.println("Failure!, time to drop message!");
+										System.out.println("Deposit | Failure!, dropping message!");
 										break;
 									}
 								} else {
@@ -269,13 +262,13 @@ public class Server {
 								resultcache.put(Integer.parseInt(idcontent[0]), msg);
 								if (Constants.AT_LEAST_ONCE == true) {
 									int successToSend = getRand();
-									System.out.println("you rolled this: " + successToSend);
+									System.out.println("Withdraw | Success send rate: " + successToSend + "0%");
 									if (successToSend >= Constants.serverFailSendRate) {
-										System.out.println("Success!, time to send message!");
+										System.out.println("Withdraw | Success!, Sending message: " + msg);
 										Connections.sendMsgToClient(msg, DpReceive);
 										break;
 									} else {
-										System.out.println("Failure!, time to drop message!");
+										System.out.println("Withdraw | Failure!, dropping message!");
 										break;
 									}
 								} else {
@@ -330,13 +323,13 @@ public class Server {
 								resultcache.put(Integer.parseInt(idcontent[0]), msg);
 								if (Constants.AT_LEAST_ONCE == true) {
 									int successToSend = getRand();
-									System.out.println("you rolled this: " + successToSend);
+									System.out.println("Success send rate: " + successToSend + "0%");
 									if (successToSend >= Constants.serverFailSendRate) {
-										System.out.println("Success!, time to send message!");
+										System.out.println("Transfer | Success!, Sending message: " + msg);
 										Connections.sendMsgToClient(msg, DpReceive);
 										break;
 									} else {
-										System.out.println("Failure!, time to drop message!");
+										System.out.println("Transfer | Failure!, dropping message!");
 										break;
 									}
 								} else {
@@ -361,13 +354,13 @@ public class Server {
 								}
 								if (Constants.AT_LEAST_ONCE == true) {
 									int successToSend = getRand();
-									System.out.println("you rolled this: " + successToSend);
+									System.out.println("Success send rate: " + successToSend + "0%");
 									if (successToSend >= Constants.serverFailSendRate) {
-										System.out.println("Success!, time to send message!");
+										System.out.println("Check Balance | Success!, Sending message" + msg);
 										Connections.sendMsgToClient(msg, DpReceive);
 										break;
 									} else {
-										System.out.println("Failure!, time to drop message!");
+										System.out.println("Check Balance | Failure!, dropping message!");
 										break;
 									}
 								} else {
@@ -394,12 +387,6 @@ public class Server {
 								break;
 						}
 					}
-					// Exit the server if the client sends "bye"
-					if (Marshal.byteToString(receive).equals("bye")) {
-						System.out.println("Client sent bye.....EXITING");
-						break;
-					}
-
 					if (!broadcastList.isEmpty()) {
 						for (int i = 0; i < broadcastList.size(); i++) {
 							// System.out.println("i" + i);
@@ -413,9 +400,6 @@ public class Server {
 				} else {
 					DPdrop = new DatagramPacket(receive, receive.length); // packe to read buffer and length of buffer
 					ds.receive(DPdrop); // to receive the msg
-					// String decodedMsg = Marshal.byteToString(receive);
-					// System.out.println("Decoded Message to be dropped: " + decodedMsg + " is
-					// Received!");
 					System.out.println("SIMULATED PACKET LOSS, SERVER IGNORE PACKET");
 					receive = new byte[65535];
 					ds.close();
