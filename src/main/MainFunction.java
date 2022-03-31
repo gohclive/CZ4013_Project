@@ -22,6 +22,10 @@ public class MainFunction {
 		main.mainMenu();
 	}
 
+	/**
+	 * contains the CLI and logic of main menu
+	 * @throws IOException
+	 */
 	public void mainMenu() throws IOException {
 
 		Scanner sc = new Scanner(System.in);
@@ -57,6 +61,8 @@ public class MainFunction {
 			int count = 0;
 			String res = null;
 			String[] result = null;
+			
+			// switch statement for user input
 			switch (userInput) {
 				case 1:
 					m = clientInput.openNewAccount();
@@ -142,7 +148,6 @@ public class MainFunction {
 							clientSocket.setSoTimeout(1000);
 							if ((res = Connections.clientToReceive(clientSocket)) != null) {
 								result = res.split("\\|");
-								System.out.println("This is result length: " + result.length);
 							}
 							if (result != null && result.length > 1)  {
 								if (result[1].equalsIgnoreCase("success")) {

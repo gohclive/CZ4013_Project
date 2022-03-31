@@ -13,6 +13,13 @@ import entity.Message;
 
 public class Connections {
 
+    /**
+     * send message to server
+     * 
+     * @param messagetosend
+     * @param clientSocket
+     * @param serverIp
+     */
     public static void sendMsgToServer(Message messagetosend, DatagramSocket clientSocket, InetAddress serverIp) {
         try {
             byte[] buf = null;
@@ -26,6 +33,12 @@ public class Connections {
         }
     }
 
+    /**
+     * send message to client
+     * 
+     * @param messagetosend
+     * @param clientPacket
+     */
     public static void sendMsgToClient(String messagetosend, DatagramPacket clientPacket) {
         try {
             InetAddress clientAddr = clientPacket.getAddress();
@@ -40,11 +53,24 @@ public class Connections {
         }
     }
 
+    /**
+     * return who is connected to the server
+     * 
+     * @param client
+     * @return
+     */
     public static String connectedHost(DatagramPacket client){
         String connectedHost = (client.getSocketAddress()).toString();
         return connectedHost;
     }
 
+    /**
+     * Receive message from server 
+     * 
+     * @param clientSocket
+     * @return
+     * @throws IOException
+     */
     public static String clientToReceive(DatagramSocket clientSocket) throws IOException {
         String result = null;
         try {
@@ -60,6 +86,13 @@ public class Connections {
         }
         return result;
     }
+    
+    
+    /**
+     * set an unused socket port to the client socket
+     * @param clientsocket
+     * @return
+     */
     public static String clientAddrPort(DatagramSocket clientsocket) {
         int port = clientsocket.getLocalPort();
         InetAddress ip = null;
@@ -75,6 +108,11 @@ public class Connections {
         return addrPort;
     }
 
+    /**
+     * create new a socket port for client
+     * @param socket
+     * @return
+     */
     public static DatagramSocket clientSocketPort(DatagramSocket socket) {
         try {
             socket = new DatagramSocket();

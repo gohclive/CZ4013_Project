@@ -11,16 +11,31 @@ public class Marshal {
         return converting;
     }
 
+    /**
+     * Convert byte to string 
+     * @param toConvert
+     * @return
+     */
     public static String byteToString(byte[] toConvert) {
         String converting = new String(toConvert, Constants.commonCharset);
         return converting;
     }
 
+    /**
+     * convert decode message to string array 
+     * @param toConvert
+     * @return
+     */
     public static String[] decodeMessage(String clientInput){
         String[] token = clientInput.split("\\|");
         return token;
     }
 
+    /**
+     * convert decode message for server to string array 
+     * @param toConvert
+     * @return
+     */
     public static String[] decodeForServer(String clientInput){
         String[] token = clientInput.split(":");
         return token;

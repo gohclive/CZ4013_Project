@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Client",
+            "request": "launch",
+            "mainClass": "client.Client",
+            "projectName": "CZ4013_Project"
+        },
+        {
+            "type": "java",
             "name": "Launch MainFunction",
             "request": "launch",
             "mainClass": "main.MainFunction",

@@ -10,6 +10,14 @@ public class Account {
 	private CURRENCY currency;
 	
 	
+	/**
+	 * Constructor
+	 * @param number
+	 * @param name
+	 * @param password
+	 * @param balance
+	 * @param currency
+	 */
 	public Account(int number, String name, String password, double balance, CURRENCY currency) {
 		super();
 		this.number = number;
@@ -19,6 +27,9 @@ public class Account {
 		this.currency = currency;
 	}
 	
+	/**
+	 * Default constructor
+	 */
 	public Account() {
 		super();
 	}
