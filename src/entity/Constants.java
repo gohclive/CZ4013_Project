@@ -27,7 +27,7 @@ public class Constants {
 	// public static final int messageID = 123;
 	public static final int serverPortNumber = 6666;
 	public static final int messageLength = 128;
-	public static final int requestTimeout = 200; // millisecond
+	public static final int requestTimeout = 1000; // millisecond
 	public static final int retry = 3;
 	public static final String delimiter = "|";
 	public static final Charset commonCharset = StandardCharsets.UTF_8;
