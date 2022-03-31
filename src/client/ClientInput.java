@@ -73,7 +73,7 @@ public class ClientInput {
 		getGeneralUserInput(1);
 		// this will print out the user input to show the user
 		System.out.printf(
-				"Your Input: Name: " + userName + " Password: " + userPassword + " Currency Type: " + userCurrencyType);
+				"Your Input: Name: " + userName + " Password: " + userPassword + " Currency Type: " + userCurrencyType +"\n");
 		// will create a request message
 		Message msg = client.createAccount(userName, userPassword, selectedCurrency);
 		return msg;
