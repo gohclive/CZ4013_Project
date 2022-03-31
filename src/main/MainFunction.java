@@ -1,16 +1,11 @@
 package main;
 
 import java.io.IOException;
-import java.lang.invoke.SwitchPoint;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import client.*;
@@ -49,10 +44,10 @@ public class MainFunction {
 			}
 		}
 
-		// variable
+		// variables
 		DatagramSocket clientSocket = null;
 		clientSocket = Connections.clientSocketPort(clientSocket);
-		Client c = new Client(ip, clientSocket.getPort());
+		Client c = new Client();
 		ClientInput clientInput = new ClientInput(c);
 
 		printMenu(0);
