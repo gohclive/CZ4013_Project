@@ -82,14 +82,26 @@ public class Connections {
             //System.out.println(recvdString);
         } catch ( SocketException e) {
             //e.printStackTrace();
-        }
-        catch (SocketTimeoutException e) {
+        }catch (SocketTimeoutException e) {
             System.out.println("No message Received from Server! Retransmitting data...");
             //e.printStackTrace();
         }
         return result;
     }
-    
+
+    public static String ClientMonitor(DatagramSocket clientSocket) throws IOException {
+        String result = null;
+        try {
+            byte[] recvbuffer = new byte[Constants.messageLength];
+            DatagramPacket dataRecv = new DatagramPacket(recvbuffer, Constants.messageLength);
+            clientSocket.receive(dataRecv);
+            String recvdString = Marshal.byteToString(recvbuffer);
+            result = recvdString;
+        }catch (SocketTimeoutException e) {
+
+        }
+        return result;
+    }
     
     /**
      * set an unused socket port to the client socket

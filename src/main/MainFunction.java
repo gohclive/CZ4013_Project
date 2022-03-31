@@ -146,7 +146,7 @@ public class MainFunction {
 					while ((System.currentTimeMillis() - startTime) <= time * 1000) {
 						try {
 							clientSocket.setSoTimeout(1000);
-							if ((res = Connections.clientToReceive(clientSocket)) != null) {
+							if ((res = Connections.ClientMonitor(clientSocket)) != null) {
 								result = res.split("\\|");
 							}
 							if (result != null && result.length > 1)  {
