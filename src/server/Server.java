@@ -204,7 +204,7 @@ public class Server {
 								double bal = accList.get(i).getBalance();
 								// set the new balance for the account
 								accList.get(i).setBalance(bal + balanceResult);
-								msg = "3|SUCCESS|" + "Your Account " + a.getNumber() + ": New Balance is "
+								msg = "3|SUCCESS|" +" Your Account " + a.getNumber() +  " Your Account Currency: " + a.getCurrency() + " Your New Balance is "
 										+ accList.get(i).getBalance() + "|";
 							}
 							resultcache.put(Integer.parseInt(idcontent[0]), msg);
@@ -247,7 +247,7 @@ public class Server {
 									double bal = accList.get(i).getBalance();
 									// set new balance for account
 									accList.get(i).setBalance(bal - balanceResult);
-									msg = "4|SUCCESS|" + "Your Account " + a.getNumber() + ": balance is "
+									msg = "4|SUCCESS|" + "Your Account " + a.getNumber() + " Account Currency: " + a.getCurrency() +  " Your New Balance is "
 											+ accList.get(i).getBalance() + "|";
 								}
 							}
@@ -302,7 +302,7 @@ public class Server {
 										double balanceRecResult = convertCurrency(balance, message[4], receiverCurr);
 										System.out.println(balanceRecResult);
 										accList.get(j).setBalance(bal + balanceRecResult);
-										msg = "6|SUCCESS|Transfer Successful! Your balance is "
+										msg = "6|SUCCESS|Transfer Successful! " + "Your Bank Currency is: " + accList.get(i).getCurrency() + " Your balance is "
 												+ accList.get(i).getBalance() + "|";
 									} else {
 										msg = "5" + "|ERROR|" + "Not enough Balance for transfer!";

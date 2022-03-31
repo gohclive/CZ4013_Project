@@ -56,7 +56,7 @@ public class ClientInput
 
 	public Message openNewAccount() {
 		getGeneralUserInput(1);
-		//System.out.printf("Name: " + userName + " Password: " + userPassword + " Currency Type: " + userCurrencyType);
+		System.out.printf("Your Input: Name: " + userName + " Password: " + userPassword + " Currency Type: " + userCurrencyType);
 		Message msg = client.createAccount(userName, userPassword, selectedCurrency);
 		return msg;
 	}
@@ -128,8 +128,7 @@ public class ClientInput
 
 	public Message closeExistingAccount() {
 		getGeneralUserInput(0);
-		System.out
-				.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
+		System.out.printf("Your Input: Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
 		Message msg = client.closeAccount(userName, userAccount, userPassword);
 		return msg;
 	}
@@ -146,7 +145,7 @@ public class ClientInput
 				System.out.println("Please Enter the sum to deposit.");
 				moneySum = GetUserInput.userInputDouble();
 				moneyCheck(moneySum);
-				System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
+				System.out.printf("Your Input: Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
 						+ " Currency Type: " + selectedCurrency + " Sum: " + moneySum + "\n");
 				msg = client.depositMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
 				break;
@@ -155,7 +154,7 @@ public class ClientInput
 				System.out.println("Please Enter the sum to withdraw.");
 				moneySum = GetUserInput.userInputDouble();
 				moneyCheck(moneySum);
-				System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
+				System.out.printf("Your Input: Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
 						+ " Currency Type: " + selectedCurrency + " Sum: " + moneySum + "\n");
 				msg = client.withdrawMoney(userName, userAccount, userPassword, selectedCurrency, moneySum);
 				break;
@@ -188,7 +187,7 @@ public class ClientInput
 		int recipentAcc = GetUserInput.userInputInt();
 		System.out.println("Please Enter amount to transfer: ");
 		double transAmount = GetUserInput.userInputDouble();
-		System.out.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
+		System.out.printf("Your Input: Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword
 				+ " Currency Type: " + selectedCurrency + " Recipient Account: " + recipentAcc + " Sum: " + transAmount
 				+ "\n");
 		Message msg = client.transferMoney(userName, userAccount, userPassword, selectedCurrency, recipentAcc, transAmount);
@@ -201,7 +200,7 @@ public class ClientInput
 		System.out.println("--------Check Balance--------\n");
 		getGeneralUserInput(0);
 		System.out
-				.printf("Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
+				.printf("Your Input: Name: " + userName + " Account Number: " + userAccount + " Password: " + userPassword + "\n");
 		Message msg = client.checkBalanceOfAccount(userName, userAccount, userPassword);
 		return msg;
 
