@@ -42,7 +42,6 @@ public class Server {
 		accList.add(alice);
 		accList.add(bob);
 		accList.add(charlie);
-
 	}
 
 	public static void main(String[] args) throws IOException, SocketException {
@@ -131,7 +130,7 @@ public class Server {
 							accountnum++;
 							msg = "1|SUCCESS|" + "Account successfully created, your account number is "+ Marshal.accPadding(a.getNumber());
 							resultcache.put(Integer.parseInt(idcontent[0]), msg);
-							if (Constants.AT_LEAST_ONCE == true){
+							if (Constants.AT_LEAST_ONCE){
 								int successToSend = getRand();
 								System.out.println("you rolled this: " + successToSend);
 								if (successToSend >= Constants.serverFailPerformRate) {
@@ -153,7 +152,7 @@ public class Server {
 							a = checkAccount(accList, message[2]);
 							if (a == null) {
 								msg = "2" + Constants.ACCOUNTNOTFOUND;
-							} else if (!a.getName().equals(message[1])) {
+							} else if (!a.getName().equalsIgnoreCase(message[1])) {
 								msg = "2" + Constants.INCORRECTNAME;
 							} else if (!a.getPassword().equals(message[3])) {
 								msg = "2" + Constants.INCORRECTPASSWORD;
@@ -167,7 +166,7 @@ public class Server {
 								}
 							}
 							resultcache.put(Integer.parseInt(idcontent[0]), msg);
-							if (Constants.AT_LEAST_ONCE == true){
+							if (Constants.AT_LEAST_ONCE){
 								int successToSend = getRand();
 								System.out.println("you rolled this: " + successToSend);
 								if (successToSend >= Constants.serverFailPerformRate) {
@@ -188,7 +187,7 @@ public class Server {
 							a = checkAccount(accList, message[2]);
 							if (a == null) {
 								msg = "3" + Constants.ACCOUNTNOTFOUND;
-							} else if (!a.getName().equals(message[1])) {
+							} else if (!a.getName().equalsIgnoreCase(message[1])) {
 								msg = "3" + Constants.INCORRECTNAME;
 							} else if (!a.getPassword().equals(message[3])) {
 								msg = "3" + Constants.INCORRECTPASSWORD;
@@ -229,7 +228,7 @@ public class Server {
 							a = checkAccount(accList, message[2]);
 							if (a == null) {
 								msg = "4" + Constants.ACCOUNTNOTFOUND;
-							} else if (!a.getName().equals(message[1])) {
+							} else if (!a.getName().equalsIgnoreCase(message[1])) {
 								msg = "4" + Constants.INCORRECTNAME;
 							} else if (!a.getPassword().equals(message[3])) {
 								msg = "4" + Constants.INCORRECTPASSWORD;
@@ -274,7 +273,7 @@ public class Server {
 							Account receiver = checkAccount(accList, message[5]);
 							if (owner == null) {
 								msg = "5" + Constants.ACCOUNTNOTFOUND;
-							} else if (!owner.getName().equals(message[1])) {
+							} else if (!owner.getName().equalsIgnoreCase(message[1])) {
 								msg = "5" + Constants.INCORRECTNAME;
 							} else if (!owner.getPassword().equals(message[3])) {
 								msg = "5" + Constants.INCORRECTPASSWORD;
@@ -332,7 +331,7 @@ public class Server {
 							a = checkAccount(accList, message[2]);
 							if (a == null) {
 								msg = "6" + Constants.ACCOUNTNOTFOUND;
-							} else if (!a.getName().equals(message[1])) {
+							} else if (!a.getName().equalsIgnoreCase(message[1])) {
 								msg = "6" + Constants.INCORRECTNAME;
 							} else if (!a.getPassword().equals(message[3])) {
 								msg = "6" + Constants.INCORRECTPASSWORD;
